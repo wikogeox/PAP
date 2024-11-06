@@ -1,3 +1,21 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Sora', sans-serif;
+    background: #0C0C0C;
+    color: white;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+}
+
 .bet-game {
     text-align: center;
     color: white;
@@ -5,24 +23,32 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+    width: 80%;
+    max-width: 800px;
 }
 
 .bet-wheel {
     display: flex;
-    gap: 5px;
+    gap: 8px;
     margin-bottom: 20px;
+    padding: 10px;
+    background-color: #333;
+    border-radius: 10px;
 }
 
 .section {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
     color: #fff;
     border-radius: 5px;
     font-weight: bold;
+    font-size: 18px;
 }
 
 .red {
@@ -40,24 +66,95 @@
 .spin-button {
     background-color: #2ecc71;
     color: #fff;
-    padding: 10px 20px;
+    padding: 10px 30px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: bold;
 }
 
 .bet-controls {
     display: flex;
     gap: 10px;
     justify-content: center;
+    background-color: #333;
+    padding: 15px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 600px;
+    margin-top: 20px;
+}
+
+.bet-controls p {
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
 }
 
 .bet-controls button {
     background-color: #007bff;
     color: #fff;
-    padding: 5px 10px;
+    padding: 8px 15px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Estilos para a secção de aposta */
+.bet-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.bet-option {
+    background-color: #333;
+    border-radius: 8px;
+    padding: 20px 30px;
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+    width: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.bet-option.red {
+    background-color: #e74c3c;
+}
+
+.bet-option.green {
+    background-color: #27ae60;
+}
+
+.bet-option.black {
+    background-color: #333;
+}
+
+.bet-option span {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.place-bet-button {
+    background-color: #222;
+    color: white;
+    border: 1px solid #888;
+    padding: 8px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.place-bet-button:hover {
+    background-color: #444;
 }

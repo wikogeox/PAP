@@ -9,9 +9,12 @@ body {
     align-items: center;
     justify-content: center;
     font-family: 'Sora', sans-serif;
-    background: url("..\css\fundo.png") lightgray 50% / cover no-repeat, #0C0C0C;    background-size: cover;
+    background: #0C0C0C url('../imagens/fundo.png') no-repeat center center;
+    background-size: cover;
     color: white;
     height: 100vh;
+    width: 100vw;
+    overflow: hidden;
 }
 
 .ellipse {
@@ -65,15 +68,15 @@ body {
 
 .input-icon {
     width: 40px;
-    height: 40px;
+    height: 37px;
     background: #AF1D1D;
     border-radius: 8px;
     position: absolute;
     display: flex;
     align-items: center;
     justify-content: center;
-    left: 10px;
-    top: 8px;
+    color: white; 
+    font-size: 18px;
 }
 
 .input-field {
@@ -89,12 +92,18 @@ body {
 
 .eye-icon {
     position: absolute;
-    right: 10px;
-    top: 15px;
+    right: 5px;
+    top: 5px;
     width: 24px;
     height: 24px;
     background: #AF1D1D;
     border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white; 
+    font-size: 12px;
+    cursor: pointer;
 }
 
 .terms-container {
@@ -129,4 +138,3 @@ body {
     font-weight: 600;
     color: white;
 }
-

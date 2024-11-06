@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulário de Registro</title>
+    <title>Registro</title>
     <link rel="stylesheet" href="css\registo.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="rectangle">
@@ -12,29 +13,32 @@
         <div class="subtitle">Vamos começar, preencha o registo</div>
         <form class="form">
             <div class="input-group">
-                <div class="input-icon user-icon">👤</div>
+                <div class="input-icon user-icon"><i class="fas fa-user"></i></div>
                 <input type="text" class="input-field" placeholder="Nome">
             </div>
             <div class="input-group">
-                <div class="input-icon email-icon">📧</div>
+                <div class="input-icon email-icon"><i class="fas fa-envelope"></i></div>
                 <input type="email" class="input-field" placeholder="Email">
             </div>
             <div class="input-group">
-                <div class="input-icon email-icon">📧</div>
+                <div class="input-icon email-icon"><i class="fas fa-envelope"></i></div>
                 <input type="email" class="input-field" placeholder="Confirme o seu email">
             </div>
             <div class="input-group">
-                <div class="input-icon lock-icon">🔒</div>
+                <div class="input-icon lock-icon"><i class="fas fa-lock"></i></div>
                 <input type="password" class="input-field" placeholder="Password">
-                <div class="eye-icon">👁️</div>
+                <div class="eye-icon"><i class="fas fa-eye"></i></div>
             </div>
             <div class="input-group">
-                <div class="input-icon lock-icon">🔒</div>
+                <div class="input-icon lock-icon"><i class="fas fa-lock"></i></div>
                 <input type="password" class="input-field" placeholder="Confirme a sua password">
+                <div class="eye-icon"><i class="fas fa-eye"></i></div>
             </div>
             <div class="terms-container">
                 <input type="checkbox" class="checkbox">
-                <span class="terms-text">Aceitar os Termos e Condições</span>
+                <span class="terms-text">
+                    <a href="termos.html" target="_blank">Aceitar os Termos e Condições</a>
+                </span>
             </div>
             <div class="frame-122">Registar</div>
         </form>

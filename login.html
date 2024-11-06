@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="css\login.css">
+    <link rel="stylesheet" href="css/login.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
@@ -22,10 +22,9 @@
                 <div class="eye-icon"><i class="fas fa-eye"></i></div>
             </div>
             <div class="remember-container">
-                <label class="remember-option">
-                    <input type="checkbox" class="remember-checkbox">
-                    <span>Lembrar-se de mim</span>
-                </label>
+                <input type="checkbox" id="checkbox" class="remember-checkbox">
+                <label for="checkbox" class="label"></label>
+                <span class="remember-text">Lembrar-se de mim</span>
                 <a href="alterarPW.html" class="forgot-password">Esqueceu a password?</a>
             </div>
             <button type="submit" class="frame-122">Login</button>

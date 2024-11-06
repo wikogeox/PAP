@@ -1,0 +1,114 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Sora', sans-serif;
+    background: #0C0C0C url('../imagens/fundo.png') no-repeat center center;
+    background-size: cover;
+    color: white;
+    height: 100vh;
+    width: 100vw;
+}
+
+.rectangle {
+    width: 400px;
+    padding: 40px;
+    background: linear-gradient(183deg, #050505 0%, #181818 100%);
+    border-radius: 20px;
+    border: 1px solid #AF1D1D;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.subtitle {
+    color: #9B9B9B;
+    font-size: 14px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 20px;
+}
+
+.input-group {
+    position: relative;
+    width: 100%;
+}
+
+.input-icon {
+    width: 40px;
+    height: 37px;
+    background: #AF1D1D;
+    border-radius: 8px;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 18px;
+}
+
+.input-field {
+    width: 100%;
+    padding: 10px 10px 10px 60px;
+    background: #292929;
+    color: #9B9B9B;
+    border-radius: 8px;
+    border: none;
+    font-size: 14px;
+    font-family: 'Sora', sans-serif;
+}
+
+.eye-icon {
+    position: absolute;
+    right: 10px;
+    top: 8px;
+    width: 24px;
+    height: 24px;
+    background: #AF1D1D;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.error-message {
+    font-size: 12px;
+    color: #AF1D1D;
+    margin-top: 5px;
+}
+
+.confirm-button {
+    width: 100%;
+    padding: 12px;
+    background: #AF1D1D;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+    border: none;
+}

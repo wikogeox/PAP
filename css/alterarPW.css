@@ -112,3 +112,7 @@ body {
     color: white;
     border: none;
 }
+
+.confirm-button:hover {
+    background: #eb4e4e;
+}

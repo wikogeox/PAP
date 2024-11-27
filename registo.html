@@ -11,37 +11,58 @@
     <div class="rectangle">
         <div class="title">Bem-vindo</div>
         <div class="subtitle">Vamos começar, preencha o registo</div>
-        <form class="form">
+        <form class="form" action="registo.php" method="POST">
+            <a href="google_register.php" class="google-login-btn">
+                <i class="fab fa-google"></i> Registar com o Google
+            </a>            
+            <div class="divider"><span>OU</span></div>
             <div class="input-group">
                 <div class="input-icon user-icon"><i class="fas fa-user"></i></div>
-                <input type="text" class="input-field" placeholder="Nome">
+                <input type="text" class="input-field" placeholder="Nome" name="username" required>
             </div>
             <div class="input-group">
                 <div class="input-icon email-icon"><i class="fas fa-envelope"></i></div>
-                <input type="email" class="input-field" placeholder="Email">
+                <input type="email" class="input-field" placeholder="Email" name="email" required>
             </div>
             <div class="input-group">
                 <div class="input-icon email-icon"><i class="fas fa-envelope"></i></div>
-                <input type="email" class="input-field" placeholder="Confirme o seu email">
+                <input type="email" class="input-field" placeholder="Confirme o seu email" name="confirmEmail" required>
             </div>
             <div class="input-group">
                 <div class="input-icon lock-icon"><i class="fas fa-lock"></i></div>
-                <input type="password" class="input-field" placeholder="Password">
-                <div class="eye-icon"><i class="fas fa-eye"></i></div>
+                <input type="password" class="input-field" placeholder="Password" id="password-field" name="password" required>
+                <div class="eye-icon" onclick="togglePasswordVisibility('password-field', 'eye-icon')"><i class="fas fa-eye" id="eye-icon"></i></div>
             </div>
             <div class="input-group">
                 <div class="input-icon lock-icon"><i class="fas fa-lock"></i></div>
-                <input type="password" class="input-field" placeholder="Confirme a sua password">
-                <div class="eye-icon"><i class="fas fa-eye"></i></div>
+                <input type="password" class="input-field" placeholder="Confirme a sua password" id="confirm-password-field" name="confirmPassword" required>
             </div>
             <div class="terms-container">
-                <input type="checkbox" class="checkbox">
+                <input type="checkbox" class="checkbox" required>
                 <span class="terms-text">
-                    <a href="termos.html" target="_blank">Aceitar os Termos e Condições</a>
+                    <a href="termos.html" target="_blank">Eu li e aceito os Termos e Condições</a>
                 </span>
             </div>
-            <div class="frame-122">Registar</div>
+            <button type="submit" class="frame-122">Registar</button>
         </form>
     </div>    
+
+    <script>
+        function togglePasswordVisibility(passwordFieldId, eyeIconId) {
+            const passwordField = document.getElementById(passwordFieldId);
+            const eyeIcon = document.getElementById(eyeIconId);
+    
+            // Alternar entre mostrar e esconder a senha
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordField.type = 'password';
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            }
+        }
+    </script>
 </body>
 </html>

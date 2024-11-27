@@ -6,32 +6,107 @@
     <title>Login</title>
     <link rel="stylesheet" href="css/login.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Inclui jQuery -->
 </head>
 <body>
     <div class="rectangle">
         <div class="title">Bem Vindo!</div>
         <div class="subtitle">Login para continuar</div>
-        <form class="form">
+        <form class="form" action="login.php" method="POST">
+            <button type="button" class="google-login-btn" onclick="window.location.href='google_login.php'">
+                <i class="fab fa-google"></i> Continuar com o Google
+            </button>            
+            <div class="divider"><span>OU</span></div>
+
             <div class="input-group">
                 <div class="input-icon email-icon"><i class="fas fa-envelope"></i></div>
-                <input type="email" class="input-field" placeholder="Email">
+                <input type="email" name="email" class="input-field" placeholder="Email" required id="email-field">
             </div>
             <div class="input-group">
                 <div class="input-icon lock-icon"><i class="fas fa-lock"></i></div>
-                <input type="password" class="input-field" placeholder="Password">
-                <div class="eye-icon"><i class="fas fa-eye"></i></div>
+                <input type="password" name="password" class="input-field" placeholder="Password" required id="password-field">
+                <div class="eye-icon" onclick="togglePasswordVisibility()"><i class="fas fa-eye" id="eye-icon"></i></div>
             </div>
             <div class="remember-container">
                 <input type="checkbox" id="checkbox" class="remember-checkbox">
                 <label for="checkbox" class="label"></label>
                 <span class="remember-text">Lembrar-se de mim</span>
-                <a href="alterarPW.html" class="forgot-password">Esqueceu a password?</a>
+                <a href="#" id="forgotPassword" class="forgot-password">Esqueceu a password?</a>
             </div>
+
             <button type="submit" class="frame-122">Login</button>
+                
             <div class="register">
                 Não tem uma conta? <a href="registo.html" class="register-link">Registe-se agora</a>
             </div>
         </form>
-    </div>    
+    </div>   
+    
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const params = new URLSearchParams(window.location.search);
+            if (params.has('error')) {
+                const error = params.get('error');
+                let message = '';
+
+                if (error === 'user_not_found') {
+                    message = 'Erro: O utilizador não está registado.';
+                } else if (error === 'auth_failed') {
+                    message = 'Erro: Falha na autenticação. Tente novamente.';
+                }
+
+                if (message) {
+                    alert(message); // Ou exibir a mensagem no HTML
+                }
+            }
+        });
+
+        function togglePasswordVisibility() {
+            const passwordField = document.getElementById('password-field');
+            const eyeIcon = document.getElementById('eye-icon');
+    
+            // Alternar entre mostrar e esconder a senha
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordField.type = 'password';
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            }
+        }
+
+        $(document).ready(function() {
+            $('#forgotPassword').on('click', function(e) {
+                e.preventDefault(); // Previne o comportamento padrão do link
+                const email = $('#email-field').val(); // Captura o email do input
+
+                // Verifica se o email foi preenchido
+                if (email) {
+                    // Verifica se o email existe na base de dados
+                    $.ajax({
+                        type: 'POST',
+                        url: 'config.php',
+                        data: { email: email },
+                        success: function(response) {
+                            const result = JSON.parse(response);
+                            if (result.exists) {
+                                window.location.href = 'alterarPW.html?email=' + encodeURIComponent(email); // Redireciona para a página de alterar senha
+                            } else {
+                                alert("O email não está registado."); // Exibe a mensagem de erro
+                            }
+                        },
+                        error: function() {
+                            alert("Ocorreu um erro ao verificar o email."); // Mensagem de erro em caso de falha
+                        }
+                    });
+                } else {
+                    alert("Por favor, insira o seu Email."); // Mensagem se o campo estiver vazio
+                }
+            });
+        });
+    </script>
 </body>
 </html>

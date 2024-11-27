@@ -137,4 +137,64 @@ body {
     font-size: 16px;
     font-weight: 600;
     color: white;
+    border: none;
+}
+
+.frame-122:hover {
+    background: #eb4e4e;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.divider::before,
+.divider::after {
+    content: "";
+    flex: 1;
+    border-bottom: 1px solid #9B9B9B;
+}
+
+.divider::before {
+    margin-right: 10px;
+}
+
+.divider::after {
+    margin-left: 10px;
+}
+
+.divider span {
+    color: #9B9B9B;
+    font-size: 12px;
+}
+
+.google-login-btn {
+    width: 100%;
+    padding: 12px;
+    background: #AF1D1D;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.google-login-btn i {
+    font-size: 18px;
+    color: #ffffff; 
+}
+
+.google-login-btn:hover {
+    background: #eb4e4e;
 }

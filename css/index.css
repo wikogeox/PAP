@@ -14,33 +14,61 @@ body {
 /* Barra de Navegação */
 .navbar {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 20px;
-    background-color: #333;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #1c1c28;
+    border-bottom: 1px solid #333;
+}
+
+.logo img {
+    height: 40px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 15px;
 }
 
 .nav-links a {
-    color: #fff;
-    margin: 0 15px;
+    color: #aaa;
     text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s;
 }
 
+.nav-links a:hover {
+    color: #fff;
+}
+
+.nav-buttons {
+    display: flex;
+    gap: 15px; 
+}
+
+/* Botões de Login, Logout e Registar */
 .nav-buttons button {
-    margin-left: 10px;
-    padding: 10px 15px;
+    padding: 10px 20px;
+    background: linear-gradient(180deg, #FF4C4C 0%, #FF2C2C 100%);
+    color: #fff;
     border: none;
+    border-radius: 20px;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
     cursor: pointer;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.register-btn {
-    background-color: #ff4c4c;
-    color: #fff;
+.nav-buttons button:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.3);
 }
 
-.login-btn {
-    background-color: #1e90ff;
-    color: #fff;
+.nav-buttons button:active {
+    transform: scale(0.98);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* Conteúdo Principal */
@@ -65,30 +93,68 @@ body {
     color: #ccc;
 }
 
-/* Barra Lateral com Ícones */
+/* Barra Lateral */
 .icon-sidebar {
-    width: 50px;
+    width: 50px; 
     background-color: #1c1c28;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 10px 0;
+    position: fixed;
+    height: 100%; 
+    overflow: hidden; 
+    transition: width 0.3s ease-in-out; 
+}
+
+.icon-sidebar:hover {
+    width: 200px; 
+}
+
+.menu-toggle {
+    margin-bottom: 20px;
+    cursor: pointer;
+    color: #fff;
+    font-size: 24px;
 }
 
 .icon {
-    width: 35px;
-    height: 35px;
-    margin: 10px 0;
-    background-color: #3c3c4c;
-    border-radius: 5px;
-    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 10px;
+    width: 100%;
+    padding: 10px 15px;
+    color: #aaa;
+    transition: background-color 0.2s;
 }
 
-.icon.active {
-    background-color: #ff4c4c;
+.icon:hover {
+    background-color: #333;
+    color: #fff;
 }
 
-/* Banner de Convite */
+.icon i {
+    font-size: 18px; 
+}
+
+.icon-label {
+    display: none; /* Oculta o texto quando retraído */
+    font-size: 14px;
+    white-space: nowrap; /* Impede quebra de linha */
+}
+
+.icon-sidebar:hover .icon-label {
+    display: inline-block; /* Mostra o texto quando expandido */
+}
+
+
+/* Promoções */
+.promotions {
+    flex: 1;
+    padding: 20px;
+}
+
 .invite-banner {
     background-color: #333;
     padding: 20px;
@@ -120,12 +186,7 @@ body {
     cursor: pointer;
 }
 
-/* Promoções */
-.promotions {
-    flex: 1;
-    padding: 20px;
-}
-
+/* Jogos */
 .games-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -134,7 +195,7 @@ body {
 }
 
 .game-card {
-    background-image: url('pvp-mines.jpg'); /* Use the correct path to the PVP Mines image */
+    background-image: url('pvp-mines.jpg'); 
     background-size: cover;
     background-position: center;
     height: 150px;
@@ -146,4 +207,22 @@ body {
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
     border-radius: 10px;
     text-align: center;
+}
+
+.nav-links a {
+    display: flex;
+    align-items: center;
+    gap: 8px; 
+    color: #aaa;
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s;
+}
+
+.nav-links a i {
+    font-size: 18px; 
+}
+
+.nav-links a:hover {
+    color: #fff;
 }

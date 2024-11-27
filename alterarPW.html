@@ -11,20 +11,78 @@
     <div class="rectangle">
         <div class="title">Alterar password</div>
         <div class="subtitle">Está quase lá</div>
-        <form class="form">
+        
+        <!-- Caixa de mensagens para erros ou sucesso -->
+        <div id="message-box" style="display: none; padding: 10px; border-radius: 5px; margin-bottom: 15px;"></div>
+        
+        <form class="form" action="alterarPW.php" method="post">
             <div class="input-group">
                 <div class="input-icon"><i class="fas fa-lock"></i></div>
-                <input type="password" class="input-field" placeholder="Nova password">
-                <div class="eye-icon"><i class="fas fa-eye"></i></div>
+                <input type="password" class="input-field" placeholder="Nova password" id="new-password" name="new-password" required>
+                <div class="eye-icon" onclick="togglePasswordVisibility('new-password')"><i class="fas fa-eye" id="eye-icon"></i></div>
                 <span class="error-message">Deve conter no minimo 6 caracteres</span>
             </div>
             <div class="input-group">
                 <div class="input-icon"><i class="fas fa-lock"></i></div>
-                <input type="password" class="input-field" placeholder="Confirme a nova password">
+                <input type="password" class="input-field" placeholder="Confirme a nova password" id="confirm-password" name="confirm-password" required>
                 <span class="error-message">As passwords têm que coincidir</span>
             </div>
+            
+            <!-- Campo escondido para o email do utilizador -->
+            <input type="hidden" id="email" name="email" value="">
+
             <button type="submit" class="confirm-button">Confirmar alteração</button>
         </form>
     </div>
+
+    <script>
+        // Função para alternar a visibilidade da senha
+        function togglePasswordVisibility(passwordFieldId) {
+            const passwordField = document.getElementById(passwordFieldId);
+            const eyeIcon = document.getElementById('eye-icon');
+    
+            // Alternar entre mostrar e esconder a senha
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordField.type = 'password';
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            }
+        }
+
+        // Captura o email da URL e coloca no campo escondido
+        const urlParams = new URLSearchParams(window.location.search);
+        const email = urlParams.get('email');
+        document.getElementById('email').value = email;
+
+        // Captura a mensagem e tipo da URL e exibe na página
+        const mensagem = urlParams.get('mensagem');
+        const texto = urlParams.get('texto');
+
+        if (mensagem && texto) {
+            var messageBox = document.getElementById('message-box');
+            messageBox.innerHTML = texto;
+
+            if (mensagem === 'success') {
+                messageBox.style.backgroundColor = 'lightgreen';
+                messageBox.style.color = 'green';
+            } else {
+                messageBox.style.backgroundColor = 'lightcoral';
+                messageBox.style.color = 'darkred';
+            }
+
+            messageBox.style.display = 'block';
+        }
+    
+        // Se a mensagem for de sucesso, redireciona para a página de login após 1 segundo
+        if (mensagem === 'success') {
+            setTimeout(function() {
+                window.location.href = 'login.html';
+            }, 1200); // 1200 milissegundos = 1,2 segundo
+        }
+    </script>
 </body>
 </html>

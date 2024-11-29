@@ -5,24 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jogo de Apostas</title>
     <link rel="stylesheet" href="css/roleta.css">
+    <style>
+        /* Exibição do resultado */
+        .result-display {
+            margin-top: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;
+            text-align: center; /* Centraliza a mensagem */
+        }
+    </style>
 </head>
 <body>
-    <div class="bet-game">
+    <div class="container">
         <!-- Roda de apostas -->
-        <div class="bet-wheel">
-            <div class="section red">9</div>
-            <div class="section red">6</div>
-            <div class="section black">8</div>
-            <div class="section red">7</div>
-            <div class="section green">0</div>
-            <div class="section black">14</div>
-            <div class="section red">1</div>
+        <div class="bet-wheel-container">
+            <div class="bet-wheel">
+                <div class="number-line" id="roleta"></div>
+            </div>
         </div>
-        <button class="spin-button">Spin</button>
+
+        <!-- Botão de Spin -->
+        <div class="spin-container">
+            <button class="spin-button" onclick="girarRoleta()">Spin</button>
+            <div class="result-display" id="resultado">Clique em "Spin" para jogar!</div>
+        </div>
 
         <!-- Controlo de Aposta -->
         <div class="bet-controls">
-            <p>Saldo: 159,780 💎</p>
+            <p>Saldo: 159,780 </p>
             <button>+10</button>
             <button>+100</button>
             <button>+1000</button>
@@ -47,5 +58,48 @@
             </div>
         </div>
     </div>
+
+    <div class="bet-wheel">
+        <div class="number-line" id="roleta"></div>
+    </div>
+    
+    <script>
+        // Função para preencher a roleta
+        fetch('roleta.php')
+            .then(response => response.json())
+            .then(sequencia => {
+                const roleta = document.getElementById('roleta');
+    
+                // Adicionar números da roleta
+                sequencia.forEach(numero => {
+                    const div = document.createElement('div');
+                    div.classList.add('section');
+    
+                    // Definir a classe do número com base na cor
+                    if (numero === 0) {
+                        div.classList.add('green');
+                    } else if (numero >= 1 && numero <= 18) {
+                        div.classList.add('red');
+                    } else {
+                        div.classList.add('black');
+                    }
+    
+                    // Inserir o número
+                    div.textContent = numero;
+                    roleta.appendChild(div);
+                });
+            })
+            .catch(error => console.error('Erro ao carregar a roleta:', error));
+    
+        // Função para girar a roleta
+        function girarRoleta() {
+            const roleta = document.getElementById('roleta');
+            roleta.scrollBy({
+                left: 600, // Define a quantidade de pixels para "girar"
+                behavior: 'smooth' // Faz a rolagem suave
+            });
+        }
+    </script>    
+    
 </body>
 </html>

@@ -1,3 +1,4 @@
+/* Reset geral */
 * {
     margin: 0;
     padding: 0;
@@ -16,51 +17,85 @@ body {
     overflow: hidden;
 }
 
-.bet-game {
+/* Container principal */
+.container {
     text-align: center;
-    color: white;
-    background-color: #1c1c1e;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
-    width: 80%;
-    max-width: 800px;
+    width: 100%;
 }
 
-.bet-wheel {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 20px;
-    padding: 10px;
-    background-color: #333;
-    border-radius: 10px;
-}
-
-.section {
-    width: 50px;
-    height: 50px;
+/* Container principal da roleta */
+.bet-wheel-container {
+    width: 100%;
+    overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #fff;
-    border-radius: 5px;
-    font-weight: bold;
+    margin: 20px 0;
+}
+
+/* Roda de apostas */
+.bet-wheel {
+    display: flex;
+    flex-direction: row; /* Layout em linha */
+    justify-content: center; /* Centralizar horizontalmente */
+    align-items: center;
+    height: 100px;
+    width: 100%; /* Ajusta para ocupar a largura completa */
+    overflow-x: hidden; /* Esconde o conteúdo fora da área visível */
+    background-color: #1c1c1e;
+    padding: 10px;
+    border-radius: 10px;
+    gap: 10px; /* Espaçamento entre os números */
+    position: relative; /* Necessário para centralizar o indicador */
+}
+
+/* Número individual na roleta */
+.number-line .section {
+    display: inline-flex; /* Mantém os itens alinhados em linha */
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 80px;
     font-size: 18px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    margin-right: 5px;
 }
 
-.red {
-    background-color: #e74c3c;
+/* Cores dos números */
+.number-line .green {
+    background-color: green;
 }
 
-.black {
-    background-color: #333;
+.number-line .red {
+    background-color: red;
 }
 
-.green {
-    background-color: #27ae60;
+.number-line .black {
+    background-color: black;
+}
+
+/* Indicador central para roleta */
+.bet-wheel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 5px;
+    background-color: #fff;
+    z-index: 10;
+}
+
+/* Botão de girar e sua centralização */
+.spin-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
 }
 
 .spin-button {
@@ -70,11 +105,17 @@ body {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     font-size: 16px;
     font-weight: bold;
+    transition: background-color 0.3s;
 }
 
+.spin-button:hover {
+    background-color: #a0f5c3;
+}
+
+/* Controles de aposta */
 .bet-controls {
     display: flex;
     gap: 10px;
@@ -106,7 +147,7 @@ body {
     font-weight: bold;
 }
 
-/* Estilos para a secção de aposta */
+/* Opções de aposta */
 .bet-buttons {
     display: flex;
     gap: 20px;

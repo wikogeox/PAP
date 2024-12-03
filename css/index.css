@@ -75,6 +75,8 @@ body {
 .main-content {
     display: flex;
     margin-top: 20px;
+    margin-left: 50px; 
+    transition: margin-left 0.3s ease-in-out;
 }
 
 /* Barra Lateral */
@@ -93,18 +95,20 @@ body {
     color: #ccc;
 }
 
-/* Barra Lateral */
+/* Barra Lateral com Ícones */
 .icon-sidebar {
-    width: 50px; 
+    width: 70px; 
     background-color: #21201F;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 10px 0;
-    position: fixed;
+    padding: 20px 0;
+    left: 0;
     height: 100%; 
     overflow: hidden; 
-    transition: width 0.3s ease-in-out; 
+    transition: width 0.3s ease-in-out, margin-left 0.3s ease-in-out; 
+    position: absolute;
+    z-index: 1000; 
 }
 
 .icon-sidebar:hover {
@@ -126,7 +130,7 @@ body {
     width: 100%;
     padding: 10px 15px;
     color: #aaa;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s, color 0.2s;
 }
 
 .icon:hover {
@@ -148,19 +152,91 @@ body {
     display: inline-block; /* Mostra o texto quando expandido */
 }
 
+/* Ajuste para o conteúdo principal com a barra lateral */
+.main-content {
+    display: flex;
+    margin-top: 20px;
+    margin-left: 60px; /* Ajuste inicial da margem para 60px */
+    transition: margin-left 0.3s ease-in-out; /* Sincroniza com a barra lateral */
+}
+
+.icon-sidebar:hover + .main-content {
+    margin-left: 200px; /* Alinha o conteúdo quando a barra lateral está expandida */
+}
 
 /* Promoções */
 .promotions {
     flex: 1;
-    padding: 20px;
+    padding: 50px;
 }
 
+/* Banner Decorativo */
+.background-style {
+    position: relative;
+    width: 100%;
+    height: 200px; /* Ajuste conforme necessário */
+    background: radial-gradient(circle at center, #000 60%, #0b0b0b 100%);
+    overflow: hidden;
+}
+
+.background-style::before,
+.background-style::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 0, 0, 0.1);
+    filter: blur(50px);
+}
+
+.background-style::before {
+    width: 300px;
+    height: 300px;
+    top: -50px;
+    left: 50px;
+    background: rgba(255, 0, 0, 0.2); /* Vermelho com opacidade */
+}
+
+.background-style::after {
+    width: 250px;
+    height: 250px;
+    bottom: -30px;
+    right: 100px;
+    background: rgba(255, 0, 0, 0.15);
+}
+
+.light-effect {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3), transparent);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    filter: blur(30px);
+    animation: glow 3s infinite alternate ease-in-out;
+}
+
+@keyframes glow {
+    0% {
+        opacity: 0.5;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+}
+
+/* Banner de Convite */
 .invite-banner {
-    background-color: #333;
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 20px;
     text-align: center;
+    background-color: rgba(0, 0, 0, 0.7); /* Fundo semitransparente para melhor visibilidade */
+    z-index: 1; /* Garante que o conteúdo está acima dos elementos decorativos */
+    position: relative;
 }
 
 .invite-banner h2 {
@@ -176,14 +252,30 @@ body {
     color: #ccc;
 }
 
+/* Estilo dos botões do banner */
 .invite-banner button {
-    padding: 10px 15px;
-    background-color: #ff4c4c;
+    padding: 10px 20px;
+    background: linear-gradient(180deg, #FF4C4C 0%, #FF2C2C 100%);
     color: #fff;
     border: none;
-    border-radius: 4px;
-    margin: 10px 5px;
+    border-radius: 20px;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
     cursor: pointer;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin: 10px 5px; /* Mantém o espaçamento */
+}
+
+.invite-banner button:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.3);
+}
+
+.invite-banner button:active {
+    transform: scale(0.98);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* Jogos */
@@ -225,4 +317,45 @@ body {
 
 .nav-links a:hover {
     color: #fff;
+}
+
+/* Estilo do rodapé */
+footer {
+    background-color: #1c1c1c;
+    color: #fff;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    margin-top: -37px;
+}
+
+footer .logo img {
+    max-height: 60px;
+}
+
+footer .footer-info {
+    flex: 0.9;
+    padding: 0 20px;
+}
+
+footer .footer-info p {
+    margin: 5px 0;
+}
+
+footer .footer-rights {
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+footer .footer-links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: right;
+}
+
+footer .footer-links ul li {
+    margin: 5px 0;
 }

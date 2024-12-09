@@ -81,21 +81,21 @@ $autenticado = isset($_SESSION['user_id']); // Assume que 'user_id' é a chave u
                 <a href="roleta.html" class="game-card" style="background-image: url('imagens/roleta.png');">
                     <span>ROLETA</span>
                 </a>
-                <a href="mines.html" class="game-card" style="background-image: url('imagens/mines.png');">
+                <a href="mines.php" class="game-card" style="background-image: url('imagens/mines.png');">
                     <span>MINES</span>
                 </a>
-                <div class="game-card" style="background-image: url('image3.jpg');">
-                    <span>PVP MINES</span>
-                </div>
-                <div class="game-card" style="background-image: url('image4.jpg');">
-                    <span>PVP MINES</span>
-                </div>
-                <div class="game-card" style="background-image: url('image5.jpg');">
-                    <span>PVP MINES</span>
-                </div>
-                <div class="game-card" style="background-image: url('image6.jpg');">
-                    <span>PVP MINES</span>
-                </div> 
+                <a href="" class="game-card" style="background-image: url('imagens/plinko.png');">
+                    <span>PLINKO</span>
+                </a>
+                <a href="" class="game-card" style="background-image: url('imagens/crash.png');">
+                    <span>CRASH</span>
+                </a>
+                <a href="" class="game-card" style="background-image: url('');">
+                    <span> </span>
+                </a>
+                <a href="" class="game-card" style="background-image: url('');">
+                    <span> </span>
+                </a> 
             </div>
         </section>
     </div>

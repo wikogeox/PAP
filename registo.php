@@ -5,17 +5,19 @@ session_start();
 // Inclui a configuração da base de dados
 include 'config.php';
 
+// Inclui a função de envio de email
+include 'enviaremail.php';
+
 // Verifica se o formulário foi submetido
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] == 'POST') 
     // Obtém os dados do formulário
     $username = trim($_POST['username']);
     $email = trim($_POST['email']);
-    $confirmEmail = trim($_POST['confirmEmail']);
     $password = trim($_POST['password']);
     $confirmPassword = trim($_POST['confirmPassword']); // Para confirmar que as senhas coincidem
 
     // Verifica se todos os campos foram preenchidos
-    if (empty($username) || empty($email) || empty($password) || empty($confirmPassword) || empty($confirmEmail)) {
+    if (empty($username) || empty($email) || empty($password) || empty($confirmPassword)) {
         echo "<script>alert('Todos os campos são obrigatórios.'); window.location.href = 'registo.html';</script>";
         exit();
     }
@@ -23,12 +25,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Verifica se o email é válido
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         echo "<script>alert('O email fornecido é inválido.'); window.location.href = 'registo.html';</script>";
-        exit();
-    }
-
-    // Verifica se os emails coincidem
-    if ($email !== $confirmEmail) {
-        echo "<script>alert('Os emails não coincidem.'); window.location.href = 'registo.html';</script>";
         exit();
     }
 
@@ -59,9 +55,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt_inserir->bind_param("sss", $username, $email, $hashedPassword);
 
     if ($stmt_inserir->execute()) {
-        echo "<script>alert('Utilizador criado com sucesso!'); window.location.href = 'login.html';</script>";
+        // Chama a função para enviar o e-mail de boas-vindas
+        $emailEnviado = enviarEmail($email, $username);
+
+        if ($emailEnviado) {
+            echo "<script>alert('Utilizador criado com sucesso! Um e-mail de boas-vindas foi enviado.'); window.location.href = 'login.html';</script>";
+        } else {
+            // Registra erro no console e no servidor
+            $erroEmail = "Erro ao enviar e-mail para $email";
+            error_log($erroEmail . PHP_EOL, 3, "log.txt");
+            echo "<script>console.error('$erroEmail'); alert('Conta criada, mas houve um problema ao enviar o e-mail. Verifique sua caixa de entrada ou spam.'); window.location.href = 'login.html';</script>";
+        }
     } else {
         echo "<script>alert('Erro ao criar o utilizador. Tente novamente.'); window.location.href = 'registo.html';</script>";
     }
-}
+
 ?>

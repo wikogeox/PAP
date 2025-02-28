@@ -1,10 +1,11 @@
+/* Reset e estrutura geral */
 * {
     box-sizing: border-box;
 }
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #1c1c1e;
+    background-color: #121212;
     color: white;
     display: flex;
     justify-content: center;
@@ -19,60 +20,89 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 20px;
+    gap: 15px;
+    background: linear-gradient(145deg, #1e1e1e, #292929);
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 4px 4px 12px #0d0d0d, -4px -4px 12px #222;
 }
 
 h1 {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+    font-size: 20px;
 }
 
+/* Grid do jogo ajustado */
 .grid {
     display: grid;
     grid-template-columns: repeat(5, 50px);
-    gap: 10px;
-    margin-bottom: 20px;
+    gap: 8px;
+    margin-bottom: 15px;
 }
 
 .square {
     width: 50px;
     height: 50px;
-    background-color: #333;
+    background: linear-gradient(145deg, #2a2a2a, #1c1c1c);
     color: #fff;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 24px;
-    border-radius: 5px;
+    font-size: 20px;
+    border-radius: 8px;
     cursor: pointer;
+    box-shadow: 2px 2px 5px #0f0f0f, -2px -2px 5px #232323;
+    transition: all 0.2s;
 }
 
 .square:hover {
-    background-color: #555;
+    background: linear-gradient(145deg, #3a3a3a, #2c2c2c);
+    transform: scale(1.05);
 }
 
+/* Efeitos de diamantes e bombas */
+.square.diamond {
+    background: linear-gradient(145deg, #0f8a2c, #0cd932);
+    box-shadow: 0px 0px 12px #0cd932;
+}
+
+.square.bomb {
+    background: linear-gradient(145deg, #8a0f0f, #d90c0c);
+    box-shadow: 0px 0px 12px #d90c0c;
+}
+
+/* Controles de aposta */
 .bet-controls {
     display: flex;
-    gap: 10px;
+    gap: 8px;
     justify-content: center;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .bet-controls button {
-    background-color: #FF2C2C;
+    background: linear-gradient(145deg, #ff2c2c, #cc0000);
     color: #fff;
-    padding: 5px 10px;
+    padding: 6px 10px;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     cursor: pointer;
+    font-weight: bold;
+    box-shadow: 2px 2px 5px #0d0d0d, -2px -2px 5px #292929;
+    transition: all 0.2s;
+}
+
+.bet-controls button:hover {
+    background: linear-gradient(145deg, #ff4c4c, #e60000);
+    transform: translateY(-2px);
 }
 
 .bet-controls input {
-    padding: 5px;
-    width: 120px;
+    padding: 6px;
+    width: 100px;
     border: 1px solid #555;
     border-radius: 5px;
     text-align: center;
-    background-color: #333;
+    background-color: #1c1c1c;
     color: white;
 }
 
@@ -80,37 +110,43 @@ h1 {
     color: #aaa;
 }
 
+/* Configurações do jogo */
 .game-settings {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 8px;
 }
 
 .game-settings select {
-    padding: 5px;
+    padding: 6px;
     border: 1px solid #555;
     border-radius: 5px;
-    background-color: #333;
+    background-color: #1c1c1c;
     color: white;
 }
 
+/* Botão de iniciar jogo */
 .start-game {
     display: flex;
     justify-content: center;
-    margin-top: 20px;
+    margin-top: 15px;
 }
 
 .start-game button {
-    background-color: #FF2C2C;
+    background: linear-gradient(145deg, #ff2c2c, #cc0000);
     color: #fff;
     padding: 10px 20px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     font-size: 16px;
     cursor: pointer;
+    font-weight: bold;
+    box-shadow: 2px 2px 5px #0d0d0d, -2px -2px 5px #292929;
+    transition: all 0.2s;
 }
 
 .start-game button:hover {
-    background-color: #FF4C4C;
+    background: linear-gradient(145deg, #ff4c4c, #e60000);
+    transform: translateY(-2px);
 }

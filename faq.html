@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - Perguntas Frequentes</title>
+    <link rel="stylesheet" href="css/faq.css">
+</head>
+<body>
+    <header>
+        <h1 class="faq-title">FAQ - Perguntas Frequentes</h1>
+    </header>
+    <main class="faq-container">
+        <div class="faq-item">
+            <h2 class="faq-question">Como funciona o site?</h2>
+            <p class="faq-answer">O nosso site permite que jogues diversos jogos de aposta online, podendo ganhar dinheiro.</p>
+        </div>
+
+        <div class="faq-item">
+            <h2 class="faq-question">Como posso depositar saldo?</h2>
+            <p class="faq-answer">Podes depositar saldo através das nossas opções de pagamento disponíveis na página de pagamentos.</p>
+        </div>
+    </main>
+
+    <script>
+        // Adiciona funcionalidade de abrir/fechar respostas ao clicar nas perguntas
+        document.querySelectorAll('.faq-question').forEach(item => {
+            item.addEventListener('click', () => {
+                let answer = item.nextElementSibling;
+                answer.style.display = answer.style.display === "block" ? "none" : "block";
+            });
+        });
+    </script>
+</body>
+</html>

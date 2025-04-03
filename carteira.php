@@ -133,7 +133,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <form action="carteira.php" method="POST">
         <label for="quantia">Adicionar dinheiro:</label>
         <input type="number" id="quantia" name="quantia" step="0.01" placeholder="0.00" required>
-        <button type="submit">Adicionar</button>
+        <script src="https://www.paypal.com/sdk/js?client-id=BAAGzTmGJJlvT3fu0jXEvMuJyWdmZxgeD6ZYgyrbME4o0klJNg_PTcAmS1PV1f4fkQcN_6_cw7dIpKnHEs&components=hosted-buttons&disable-funding=venmo&currency=EUR"></script>
+<div id="paypal-container-LSP93GFU35MG8"></div>
+<script>
+  paypal.HostedButtons({
+    hostedButtonId: "LSP93GFU35MG8",
+  }).render("#paypal-container-LSP93GFU35MG8")
+</script>
     </form>
     <?php if (isset($erro)): ?>
         <p style="color: red;"><?php echo $erro; ?></p>

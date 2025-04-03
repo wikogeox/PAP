@@ -79,7 +79,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['user_id'])) {
         <form action="suporte.php" method="post" class="suporte-form">
             <label for="email">Email:</label>
             <!-- O email será preenchido automaticamente com o email do utilizador logado -->
-            <input type="email" name="email" value="<?= isset($user_email) ? htmlspecialchars($user_email) : '' ?>" <?= $email_input_disabled ?> required>
+            <input type="email" value="<?= isset($user_email) ? htmlspecialchars($user_email) : '' ?>" disabled>
+            <input type="hidden" name="email" value="<?= isset($user_email) ? htmlspecialchars($user_email) : '' ?>">
 
             <label for="assunto">Assunto:</label>
             <input type="text" name="assunto" id="assunto" <?= $assunto_disabled ?> required>

@@ -49,10 +49,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     // Criptografa a senha antes de armazená-la
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
+    function generateReferralCode($length = 8) {
+        return strtoupper(substr(md5(uniqid(mt_rand(), true)), 0, $length));
+    }
+    
     // Insere o novo utilizador na tabela `users`
-    $sql_inserir = "INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)";
+    $referral_code = generateReferralCode();
+    $sql_inserir = "INSERT INTO users (username, email, password_hash, referral_code) VALUES (?, ?, ?, ?)";
     $stmt_inserir = $liga->prepare($sql_inserir);
-    $stmt_inserir->bind_param("sss", $username, $email, $hashedPassword);
+    $stmt_inserir->bind_param("ssss", $username, $email, $hashedPassword, $referral_code);
 
     if ($stmt_inserir->execute()) {
         // Chama a função para enviar o e-mail de boas-vindas

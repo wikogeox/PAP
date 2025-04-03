@@ -1,105 +1,16 @@
-<!DOCTYPE html>
-<html lang="pt">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jogo de Apostas</title>
-    <link rel="stylesheet" href="css/roleta.css">
-    <style>
-        /* Exibição do resultado */
-        .result-display {
-            margin-top: 10px;
-            font-size: 18px;
-            font-weight: bold;
-            color: #fff;
-            text-align: center; /* Centraliza a mensagem */
-        }
-    </style>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<title>Javascript Roulette</title>
+	<meta name="title" content="Javascript Roulette">
+	<meta name="description" content="A fully functioning roulette game made using Javascript and CSS">
+	<meta name="author" content="ozboware">
+	<meta property="og:url" content="/">
+	<meta property="og:title" content="Javascript Roulette">
+	<meta property="og:description" content="A fully functioning roulette game made using Javascript and CSS">
+	<link rel="stylesheet" href="css/roleta.css" >
 </head>
+
 <body>
-    <div class="container">
-        <!-- Roda de apostas -->
-        <div class="bet-wheel-container">
-            <div class="bet-wheel">
-                <div class="number-line" id="roleta"></div>
-            </div>
-        </div>
-
-        <!-- Botão de Spin -->
-        <div class="spin-container">
-            <button class="spin-button" onclick="girarRoleta()">Spin</button>
-            <div class="result-display" id="resultado">Clique em "Spin" para jogar!</div>
-        </div>
-
-        <!-- Controlo de Aposta -->
-        <div class="bet-controls">
-            <p>Saldo: 159,780 </p>
-            <button>+10</button>
-            <button>+100</button>
-            <button>+1000</button>
-            <button>1/2</button>
-            <button>x2</button>
-            <button>Max</button>
-        </div>
-
-        <!-- Botões de apostas -->
-        <div class="bet-buttons">
-            <div class="bet-option red">
-                <span>Red Wins 2x</span>
-                <button class="place-bet-button">Place Bet</button>
-            </div>
-            <div class="bet-option green">
-                <span>Green Wins 14x</span>
-                <button class="place-bet-button">Place Bet</button>
-            </div>
-            <div class="bet-option black">
-                <span>Black Wins 2x</span>
-                <button class="place-bet-button">Place Bet</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="bet-wheel">
-        <div class="number-line" id="roleta"></div>
-    </div>
-    
-    <script>
-        // Função para preencher a roleta
-        fetch('roleta.php')
-            .then(response => response.json())
-            .then(sequencia => {
-                const roleta = document.getElementById('roleta');
-    
-                // Adicionar números da roleta
-                sequencia.forEach(numero => {
-                    const div = document.createElement('div');
-                    div.classList.add('section');
-    
-                    // Definir a classe do número com base na cor
-                    if (numero === 0) {
-                        div.classList.add('green');
-                    } else if (numero >= 1 && numero <= 18) {
-                        div.classList.add('red');
-                    } else {
-                        div.classList.add('black');
-                    }
-    
-                    // Inserir o número
-                    div.textContent = numero;
-                    roleta.appendChild(div);
-                });
-            })
-            .catch(error => console.error('Erro ao carregar a roleta:', error));
-    
-        // Função para girar a roleta
-        function girarRoleta() {
-            const roleta = document.getElementById('roleta');
-            roleta.scrollBy({
-                left: 600, // Define a quantidade de pixels para "girar"
-                behavior: 'smooth' // Faz a rolagem suave
-            });
-        }
-    </script>    
-    
+	<script src="roleta.js"></script>
 </body>
-</html>

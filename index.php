@@ -1,9 +1,28 @@
 <?php
 session_start();
+include 'config.php';
 
 // Verifica se o utilizador está autenticado
-$autenticado = isset($_SESSION['user_id']); // Assume que 'user_id' é a chave usada para identificar o utilizador
+$autenticado = isset($_SESSION['user_id']);
+$user_id = $_SESSION['user_id'] ?? null; // Obtém o ID do utilizador autenticado
+
+$referral_code = ''; // Valor padrão caso não tenha código
+
+if ($autenticado) {
+    // Consulta usando MySQLi
+    $stmt = $liga->prepare("SELECT referral_code FROM users WHERE id = ?");
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $user = $result->fetch_assoc();
+
+    if ($user) {
+        $referral_code = $user['referral_code'];
+    }
+}
 ?>
+
+
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -73,12 +92,13 @@ $autenticado = isset($_SESSION['user_id']); // Assume que 'user_id' é a chave u
         <section class="promotions">
             <!-- Banner de Convite -->
             <div class="background-style">
+            <!-- Banner de Convite -->
                 <div class="invite-banner">
                     <h2>Convide um amigo e ganhe <span>dinheiro extra!</span></h2>
                     <p>Coloque um código de um amigo e também ganhe um extra.</p>
-                    <button class="cod-btn">Código referencial</button>
-                    <button class="share-btn">Partilhar</button>
-                </div>
+                    <button class="cod-btn" onclick="openReferralModal()">Código referencial</button>
+                    <button class="share-btn" onclick="openReferralModal2()">Partilhar</button>
+                    </div>
                 <!-- Efeito de luz -->
                 <div class="light-effect"></div>
             </div>
@@ -92,7 +112,7 @@ $autenticado = isset($_SESSION['user_id']); // Assume que 'user_id' é a chave u
                 <a href="mines.php" class="game-card" style="background-image: url('imagens/mines.png');">
                     <span>MINES</span>
                 </a>
-                <a href="" class="game-card" style="background-image: url('imagens/plinko.png');">
+                <a href="plinko.php" class="game-card" style="background-image: url('imagens/plinko.png');">
                     <span>PLINKO</span>
                 </a>
                 <a href="" class="game-card" style="background-image: url('imagens/crash.png');">
@@ -299,6 +319,121 @@ $autenticado = isset($_SESSION['user_id']); // Assume que 'user_id' é a chave u
             document.getElementById('content').style.filter = 'none';
         }
     </script>
+
+    <script>
+        function openReferralModal() {
+            document.getElementById("refer-code-modal").style.display = "block";
+            document.getElementById("modal-backdrop-referral").style.display = "block";
+        }
+
+        function closeReferralModal() {
+            document.getElementById("refer-code-modal").style.display = "none";
+            document.getElementById("modal-backdrop-referral").style.display = "none";
+        }
+
+        function applyReferralCode() {
+            let code = document.getElementById("referral-code").value;
+            
+            if (code.trim() === "") {
+                alert("Por favor, insira um código!");
+                return;
+            }
+
+            fetch('validar_codigo.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'codigo=' + encodeURIComponent(code)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.mensagem);
+                if (data.sucesso) {
+                    closeReferralModal();
+                    location.reload(); // Atualiza saldo
+                }
+            })
+            .catch(error => console.error('Erro:', error));
+        }
+    </script>
+
+    <script>
+        function openReferralModal2() {
+            document.getElementById("referral-modal").style.display = "block";
+        }
+
+        function closeReferralModal2() {
+            document.getElementById("referral-modal").style.display = "none";
+        }
+
+        function copyReferralCode() {
+            let copyText = document.getElementById("referral-code2");
+
+            if (!copyText || !copyText.value.trim()) {
+                alert("O código está vazio. Verifica se foi gerado corretamente.");
+                console.log("Valor do input:", copyText ? copyText.value : "Elemento não encontrado");
+                return;
+            }
+
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+
+            navigator.clipboard.writeText(copyText.value.trim()).then(() => {
+                alert("Código copiado: " + copyText.value);
+            }).catch(err => {
+                console.error("Erro ao copiar: ", err);
+                alert("Erro ao copiar o código.");
+            });
+        }
+
+        function shareOnWhatsApp() {
+            let referralCode = document.getElementById("referral-code2").value.trim();
+
+            if (!referralCode) {
+                alert("O código está vazio. Verifica se foi gerado corretamente.");
+                return;
+            }
+
+            // 🔗 Link para a página onde o código pode ser inserido
+            let referralLink = "https://teusite.com/referral?code=" + referralCode;
+
+            // 📩 Mensagem personalizada
+            let message = encodeURIComponent(
+                "Queres ganhar um bónus extra? Usa o meu código referencial ao registares-te! 🎉\n\n" +
+                "📌 Código: " + referralCode + "\n" +
+                "🔗 Aplica aqui: " + referralLink
+            );
+
+            let whatsappURL = "https://wa.me/?text=" + message;
+
+            window.open(whatsappURL, "_blank");
+        }
+
+    </script>
+
+
+    <!-- Modal do Código Referencial -->
+    <div id="refer-code-modal" class="modal">
+        <div class="modal-content">
+            <h2>Inserir Código Referencial</h2>
+            <input type="text" id="referral-code" placeholder="Insira o código">
+            <button onclick="applyReferralCode()">Aplicar</button>
+            <button class="close-modal-btn" onclick="closeReferralModal()">Fechar</button>
+        </div>
+    </div>
+
+    <!-- Fundo escuro para o modal -->
+    <div id="modal-backdrop-referral" class="modal-backdrop" onclick="closeReferralModal()"></div>
+
+    <!-- Modal do Código Referencial -->
+    <div class="modal" id="referral-modal">
+        <h2>O teu Código Referencial</h2>
+        <div class="referral-box">
+            <input type="text" id="referral-code2" value="<?= htmlspecialchars($referral_code) ?>" readonly>
+            <button onclick="copyReferralCode()"><i class="fas fa-copy"></i> Copiar</button>
+            <button onclick="shareOnWhatsApp()"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+        </div>
+        <button class="close-modal-btn" onclick="closeReferralModal2()">Fechar</button>
+    </div>
 
 </body>
 </html>

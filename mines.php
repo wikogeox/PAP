@@ -17,7 +17,7 @@ $saldo = $user['saldo'] ?? 0;
 // Função para calcular o multiplicador
 function calcularMultiplicador($bombs, $moves) {
     $multiplicadores = [
-        1 => [1.00, 0.05],
+        1 => [1.00, 0.02],
         2 => [1.05, 0.10],
         3 => [1.10, 0.15],
         5 => [1.25, 0.25],
@@ -254,7 +254,7 @@ if (isset($_POST['bet'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jogo Mines</title>
+    <title>Mines</title>
     <link rel="stylesheet" href="css/mines.css">
 </head>
 <body>
@@ -277,7 +277,7 @@ if (isset($_POST['bet'])) {
             <input type="number" id="bet-amount" placeholder="Montante a apostar" min="1">
             <button>Min</button>
             <button>+10</button>
-            <button>1/2</button>
+            <button>½</button>
             <button>x2</button>
             <button>Max</button>
         </div>

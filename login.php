@@ -33,10 +33,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['sessao_id'] = session_id(); // Guarda o ID da nova sessão
+                $_SESSION['role'] = $user['role']; 
 
-                // Redireciona para o index.php
-                header("Location: index.php");
-                exit();
+                // Redireciona com base na role
+                if ($_SESSION['role'] === 'admin') {
+                    header("Location: dashboard.php");
+                    exit;
+                } else {
+                    header("Location: index.php");
+                    exit;
+                }
+
             } else {
                 // Password incorreta, redireciona de volta para a página de login com mensagem de erro
                 $_SESSION['error_message'] = "Palavra-passe errada. Tente novamente.";

@@ -1,34 +1,46 @@
 <?php
+session_start();
+include 'config.php';
 require 'vendor/autoload.php';
 
-use PayPal\Api\Payment;
-use PayPal\Api\PaymentExecution;
+use PayPalCheckoutSdk\Core\PayPalHttpClient;
+use PayPalCheckoutSdk\Core\SandboxEnvironment;
+use PayPalCheckoutSdk\Orders\OrdersCaptureRequest;
 
-$paymentId = $_GET['paymentId'];
-$payerId = $_GET['PayerID'];
+// 1) Verifica sessão válida
+if (!isset($_SESSION['user_id'], $_SESSION['quantia_paypal'])) {
+    header("Location: login.html");
+    exit;
+}
 
-$payment = Payment::get($paymentId, $apiContext);
+// 2) Configura PayPal SDK
+$env    = new SandboxEnvironment(PAYPAL_CLIENT_ID, PAYPAL_SECRET);
+$client = new PayPalHttpClient($env);
 
-$execution = new PaymentExecution();
-$execution->setPayerId($payerId);
+// 3) Obtém o ID da ordem (token) do query string
+$orderId = $_GET['token'] ?? null;
+if (!$orderId) {
+    exit("Parâmetro de ordem inválido.");
+}
 
 try {
-    // Executa o pagamento
-    $result = $payment->execute($execution, $apiContext);
+    // 4) Envia captura da Order
+    $captureRequest  = new OrdersCaptureRequest($orderId);
+    $captureRequest->prefer('return=representation');
+    $captureResponse = $client->execute($captureRequest);
 
-    // Obter o valor do depósito
-    $quantia = $_GET['quantia'];  // Passando o valor via GET ou POST, dependendo de como você estrutura
-
-    // Atualize o saldo do utilizador na base de dados
-    $sql = "UPDATE users SET saldo = saldo + ? WHERE id = ?";
-    $stmt = $liga->prepare($sql);
-    $stmt->bind_param("di", $quantia, $_SESSION['user_id']);
-    $stmt->execute();
-
-    // Redirecionar de volta para a carteira
-    header("Location: carteira.php");
-    exit;
+    // 5) Se sucesso, atualiza saldo
+    if ($captureResponse->result->status === 'COMPLETED') {
+        $valor = $_SESSION['quantia_paypal'];
+        $stmt  = $liga->prepare("UPDATE users SET saldo = saldo + ? WHERE id = ?");
+        $stmt->bind_param("di", $valor, $_SESSION['user_id']);
+        $stmt->execute();
+        unset($_SESSION['quantia_paypal']);
+        header("Location: index.php");
+        exit;
+    } else {
+        exit("Pagamento não concluído. Status: " . $captureResponse->result->status);
+    }
 } catch (Exception $ex) {
-    echo "Erro ao executar o pagamento: " . $ex->getMessage();
+    exit("Erro ao capturar pagamento: " . $ex->getMessage());
 }
-?>

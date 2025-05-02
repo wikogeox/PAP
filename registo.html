@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro</title>
+    <title>Registo</title>
     <link rel="stylesheet" href="css\registo.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -26,9 +26,18 @@
             </div>
             <div class="input-group">
                 <div class="input-icon lock-icon"><i class="fas fa-lock"></i></div>
-                <input type="password" class="input-field" placeholder="Password" id="password-field" name="password" required>
+                <input type="password" class="input-field" placeholder="Password" id="password-field" name="password" required oninput="validatePassword()">
                 <div class="eye-icon" onclick="togglePasswordVisibility('password-field', 'eye-icon')"><i class="fas fa-eye" id="eye-icon"></i></div>
             </div>
+            <div id="password-requirements">
+                <p id="length" class="invalid">🔴 6 a 12 caracteres</p>
+                <p id="uppercase" class="invalid">🔴 Pelo menos uma letra maiúscula</p>
+                <p id="letters" class="invalid">🔴 Contém letras</p>
+                <p id="numbers" class="invalid">🔴 Contém números</p>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="password-strength-bar"></div>
+            </div>            
             <div class="input-group">
                 <div class="input-icon lock-icon"><i class="fas fa-lock"></i></div>
                 <input type="password" class="input-field" placeholder="Confirme a sua password" id="confirm-password-field" name="confirmPassword" required>
@@ -65,6 +74,93 @@
                 eyeIcon.classList.add('fa-eye');
             }
         }
+
+        function validatePassword() {
+            const password = document.getElementById("password-field").value;
+            const lengthEl = document.getElementById("length");
+            const uppercaseEl = document.getElementById("uppercase");
+            const lettersEl = document.getElementById("letters");
+            const numbersEl = document.getElementById("numbers");
+            const strengthBar = document.getElementById("password-strength-bar");
+            const submitBtn = document.querySelector(".frame-122");
+
+            let validCount = 0;
+
+            // Verificação de comprimento
+            if (password.length >= 6 && password.length <= 12) {
+                lengthEl.classList.remove("invalid");
+                lengthEl.classList.add("valid");
+                validCount++;
+            } else {
+                lengthEl.classList.remove("valid");
+                lengthEl.classList.add("invalid");
+            }
+
+            // Verificação de letra maiúscula
+            if (/[A-Z]/.test(password)) {
+                uppercaseEl.classList.remove("invalid");
+                uppercaseEl.classList.add("valid");
+                validCount++;
+            } else {
+                uppercaseEl.classList.remove("valid");
+                uppercaseEl.classList.add("invalid");
+            }
+
+            // Verificação de letras
+            if (/[a-zA-Z]/.test(password)) {
+                lettersEl.classList.remove("invalid");
+                lettersEl.classList.add("valid");
+                validCount++;
+            } else {
+                lettersEl.classList.remove("valid");
+                lettersEl.classList.add("invalid");
+            }
+
+            // Verificação de números
+            if (/\d/.test(password)) {
+                numbersEl.classList.remove("invalid");
+                numbersEl.classList.add("valid");
+                validCount++;
+            } else {
+                numbersEl.classList.remove("valid");
+                numbersEl.classList.add("invalid");
+            }
+
+            // Atualiza a barra de progresso
+            const progress = (validCount / 4) * 100;
+            strengthBar.style.width = progress + "%";
+            strengthBar.style.backgroundColor = progress === 100 ? "#00ff00" : "#AF1D1D";
+
+            // Habilita ou desabilita o botão de submit
+            submitBtn.disabled = validCount !== 4;
+            submitBtn.style.opacity = validCount === 4 ? 1 : 0.5;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const passwordField = document.getElementById("password-field");
+            const requirements = document.getElementById("password-requirements");
+            const progressContainer = document.querySelector(".progress-bar-container");
+
+            // Mostra os requisitos e barra quando o campo ganha foco
+            passwordField.addEventListener("focusin", () => {
+                requirements.classList.add("visible");
+                progressContainer.classList.add("visible");
+            });
+
+            // Esconde os requisitos e barra quando o campo perde o foco (depois de escrever)
+            passwordField.addEventListener("focusout", () => {
+                setTimeout(() => {
+                    requirements.classList.remove("visible");
+                    progressContainer.classList.remove("visible");
+                }, 150); // pequeno atraso para evitar conflito com clique em olho ou elementos próximos
+            });
+        });
+
+        // Garante que o botão comece desativado
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelector(".frame-122").disabled = true;
+            document.querySelector(".frame-122").style.opacity = 0.5;
+        });
     </script>
 </body>
 </html>

@@ -157,11 +157,16 @@ button:active {
   }
   
   .notes {
+	position: relative;
 	display: flex;
-	align-items: flex-end;
 	justify-content: center;
-	gap: 5px;
+	align-items: flex-start;
+	gap: 5px; 
+	width: 100%;
+	margin-top: 5px; 
+	left: -10px; 
   }
+
   
   .note {
 	display: flex;
@@ -179,21 +184,26 @@ button:active {
 	margin-top: -50px;
   }
   
-  .note[data-pressed="true"] {
-	animation: press 0.5s;
-  }
-  
-  @keyframes press {
+  @keyframes glowPulse {
 	0% {
-	  border-bottom-width: 4px;
+		transform: scale(1);
+		box-shadow: 0 0 0px rgba(255, 255, 255, 0.3);
 	}
 	50% {
-	  border-bottom-width: 0;
+		transform: scale(1.2);
+		box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
 	}
 	100% {
-	  border-bottom-width: 4px;
+		transform: scale(1);
+		box-shadow: 0 0 0px rgba(255, 255, 255, 0.3);
 	}
-  }
+}
+
+.note[data-pressed="true"] {
+	animation: glowPulse 0.6s ease-out;
+	border-radius: 10px;
+}
+
   
   .note:nth-child(1) {
 	  background-color: #ff2c2c;

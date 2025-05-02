@@ -307,8 +307,7 @@ if (isset($_POST['bet'])) {
         function minBet() {
             const betInput = document.getElementById("bet-amount");
             const minValue = 0.50;
-            // Garantir que o valor inserido tenha ponto como separador decimal
-            betInput.value = minValue.toFixed(2); // Força o valor a ser 0.50 com 2 casas decimais
+            betInput.value = minValue.toFixed(2); 
             betInput.dispatchEvent(new Event('input'));
         }
 
@@ -324,16 +323,14 @@ if (isset($_POST['bet'])) {
             const betInput = document.getElementById("bet-amount");
             let currentBet = parseFloat(betInput.value) || 0;
 
-            // Verifica se o valor é maior que 0.50 antes de dividir
             if (currentBet > 0.50) {
                 currentBet = currentBet / 2;
-                // Se o valor ficar abaixo de 0.50, define como 0.50
                 if (currentBet < 0.50) {
                     currentBet = 0.50;
                 }
             }
 
-            betInput.value = currentBet.toFixed(2);  // Força o valor a ter 2 casas decimais
+            betInput.value = currentBet.toFixed(2);  
             betInput.dispatchEvent(new Event('input'));
         }
 
@@ -439,9 +436,9 @@ if (isset($_POST['bet'])) {
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                     body: 'action=cashout'
                 })
-                .then(response => response.text()) // Primeiro, ver como a resposta está a ser recebida
+                .then(response => response.text()) 
                 .then(text => {
-                    console.log("Resposta do servidor:", text); // Ver o que o PHP está a enviar
+                    console.log("Resposta do servidor:", text); 
                     return JSON.parse(text); // Converter para JSON
                 })
                 .then(({ winnings, multiplier, saldo }) => {
@@ -459,8 +456,6 @@ if (isset($_POST['bet'])) {
                 .catch(error => console.error("Erro ao processar cashout:", error));
             }
         });
-
-
 
         // Evento para cada quadrado no jogo
         document.querySelectorAll('.square').forEach(square => {

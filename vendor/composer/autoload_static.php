@@ -20,12 +20,18 @@ class ComposerStaticInit5cd48b6645860e6f71f44390d4549abe
         array (
             'phpseclib3\\' => 11,
         ),
+        'S' => 
+        array (
+            'Sample\\' => 7,
+        ),
         'P' => 
         array (
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Http\\Client\\' => 16,
             'Psr\\Cache\\' => 10,
+            'PayPalHttp\\' => 11,
+            'PayPalCheckoutSdk\\' => 18,
             'ParagonIE\\ConstantTime\\' => 23,
             'PHPMailer\\PHPMailer\\' => 20,
         ),
@@ -53,6 +59,10 @@ class ComposerStaticInit5cd48b6645860e6f71f44390d4549abe
         array (
             0 => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib',
         ),
+        'Sample\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/paypal/paypal-checkout-sdk/samples',
+        ),
         'Psr\\Log\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/log/src',
@@ -69,6 +79,14 @@ class ComposerStaticInit5cd48b6645860e6f71f44390d4549abe
         'Psr\\Cache\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/cache/src',
+        ),
+        'PayPalHttp\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/paypal/paypalhttp/lib/PayPalHttp',
+        ),
+        'PayPalCheckoutSdk\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/paypal/paypal-checkout-sdk/lib/PayPalCheckoutSdk',
         ),
         'ParagonIE\\ConstantTime\\' => 
         array (
@@ -112,16 +130,6 @@ class ComposerStaticInit5cd48b6645860e6f71f44390d4549abe
         ),
     );
 
-    public static $prefixesPsr0 = array (
-        'P' => 
-        array (
-            'PayPal' => 
-            array (
-                0 => __DIR__ . '/..' . '/paypal/rest-api-sdk-php/lib',
-            ),
-        ),
-    );
-
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Google_AccessToken_Revoke' => __DIR__ . '/..' . '/google/apiclient/src/aliases.php',
@@ -151,7 +159,6 @@ class ComposerStaticInit5cd48b6645860e6f71f44390d4549abe
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit5cd48b6645860e6f71f44390d4549abe::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit5cd48b6645860e6f71f44390d4549abe::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit5cd48b6645860e6f71f44390d4549abe::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit5cd48b6645860e6f71f44390d4549abe::$classMap;
 
         }, null, ClassLoader::class);

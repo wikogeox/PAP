@@ -116,3 +116,48 @@ body {
 .confirm-button:hover {
     background: #eb4e4e;
 }
+
+#password-requirements {
+    font-size: 12px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#password-requirements p {
+    margin: 2px 0;
+    transition: color 0.3s;
+}
+
+.valid {
+    color: #00ff00;
+}
+
+.invalid {
+    color: #ff4444;
+}
+
+.progress-bar-container {
+    width: 100%;
+    height: 8px;
+    background-color: #292929;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: #AF1D1D;
+    width: 0%;
+    transition: width 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+#password-requirements,
+.progress-bar-container {
+    display: none;
+}
+
+#password-requirements.visible,
+.progress-bar-container.visible {
+    display: block;
+}

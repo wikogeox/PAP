@@ -18,14 +18,23 @@
         <form class="form" action="alterarPW.php" method="post">
             <div class="input-group">
                 <div class="input-icon"><i class="fas fa-lock"></i></div>
-                <input type="password" class="input-field" placeholder="Nova password" id="new-password" name="new-password" required>
+                <input type="password" class="input-field" placeholder="Nova password" id="new-password" name="new-password" required oninput="validatePassword(); checkPasswordMatch();">
                 <div class="eye-icon" onclick="togglePasswordVisibility('new-password')"><i class="fas fa-eye" id="eye-icon"></i></div>
-                <span class="error-message">Deve conter no minimo 6 caracteres</span>
+                <div id="password-requirements">
+                    <p id="length" class="invalid">🔴 6 a 12 caracteres</p>
+                    <p id="uppercase" class="invalid">🔴 Pelo menos uma letra maiúscula</p>
+                    <p id="letters" class="invalid">🔴 Contém letras</p>
+                    <p id="numbers" class="invalid">🔴 Contém números</p>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="password-strength-bar"></div>
+                </div>
             </div>
             <div class="input-group">
                 <div class="input-icon"><i class="fas fa-lock"></i></div>
-                <input type="password" class="input-field" placeholder="Confirme a nova password" id="confirm-password" name="confirm-password" required>
-                <span class="error-message">As passwords têm que coincidir</span>
+                <input type="password" class="input-field" placeholder="Confirme a nova password" id="confirm-password" name="confirm-password" required oninput="checkPasswordMatch()">
+                <div class="eye-icon" onclick="togglePasswordVisibility('confirm-password')"><i class="fas fa-eye" id="eye-icon"></i></div>
+                <span id="match-message" class="error-message" style="display: none;">As passwords têm que coincidir</span>
             </div>
             
             <!-- Campo escondido para o email do utilizador -->
@@ -82,6 +91,124 @@
             setTimeout(function() {
                 window.location.href = 'login.html';
             }, 1200); // 1200 milissegundos = 1,2 segundo
+        }
+
+        function validatePassword() {
+            const password = document.getElementById("new-password").value;
+            const lengthEl = document.getElementById("length");
+            const uppercaseEl = document.getElementById("uppercase");
+            const lettersEl = document.getElementById("letters");
+            const numbersEl = document.getElementById("numbers");
+            const strengthBar = document.getElementById("password-strength-bar");
+
+            let validCount = 0;
+
+            if (password.length >= 6 && password.length <= 12) {
+                lengthEl.classList.replace("invalid", "valid");
+                validCount++;
+            } else {
+                lengthEl.classList.replace("valid", "invalid");
+            }
+
+            if (/[A-Z]/.test(password)) {
+                uppercaseEl.classList.replace("invalid", "valid");
+                validCount++;
+            } else {
+                uppercaseEl.classList.replace("valid", "invalid");
+            }
+
+            if (/[a-zA-Z]/.test(password)) {
+                lettersEl.classList.replace("invalid", "valid");
+                validCount++;
+            } else {
+                lettersEl.classList.replace("valid", "invalid");
+            }
+
+            if (/\d/.test(password)) {
+                numbersEl.classList.replace("invalid", "valid");
+                validCount++;
+            } else {
+                numbersEl.classList.replace("valid", "invalid");
+            }
+
+            const progress = (validCount / 4) * 100;
+            strengthBar.style.width = progress + "%";
+            strengthBar.style.backgroundColor = progress === 100 ? "#00ff00" : "#AF1D1D";
+
+            // Chama a verificação combinada
+            updateSubmitButton();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const passwordField = document.getElementById("new-password");
+            const requirements = document.getElementById("password-requirements");
+            const progressContainer = document.querySelector(".progress-bar-container");
+
+            // Mostra os requisitos e barra quando o campo ganha foco
+            passwordField.addEventListener("focusin", () => {
+                requirements.classList.add("visible");
+                progressContainer.classList.add("visible");
+            });
+
+            // Esconde os requisitos e barra quando o campo perde o foco (depois de escrever)
+            passwordField.addEventListener("focusout", () => {
+                setTimeout(() => {
+                    requirements.classList.remove("visible");
+                    progressContainer.classList.remove("visible");
+                }, 150); // pequeno atraso para evitar conflito com clique em olho ou elementos próximos
+            });
+        });
+
+        // Garante que o botão comece desativado
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelector(".confirm-button").disabled = true;
+            document.querySelector(".confirm-button").style.opacity = 0.5;
+        });
+
+        function checkPasswordMatch() {
+            const password = document.getElementById("new-password").value;
+            const confirmPassword = document.getElementById("confirm-password").value;
+            const matchMessage = document.getElementById("match-message");
+
+            if (confirmPassword.length === 0) {
+                matchMessage.style.display = "none";
+                return;
+            }
+
+            if (password === confirmPassword) {
+                matchMessage.textContent = "✅ As passwords coincidem";
+                matchMessage.style.color = "#00ff00";
+                matchMessage.style.display = "block";
+            } else {
+                matchMessage.textContent = "❌ As passwords têm que coincidir";
+                matchMessage.style.color = "#ff4444";
+                matchMessage.style.display = "block";
+            }
+
+            // Verifica se deve ativar o botão
+            updateSubmitButton();
+        }
+
+        function updateSubmitButton() {
+            const password = document.getElementById("new-password").value;
+            const confirmPassword = document.getElementById("confirm-password").value;
+            const submitBtn = document.querySelector(".confirm-button");
+
+            const isValidLength = password.length >= 6 && password.length <= 12;
+            const hasUppercase = /[A-Z]/.test(password);
+            const hasLetter = /[a-zA-Z]/.test(password);
+            const hasNumber = /\d/.test(password);
+            const passwordsMatch = password === confirmPassword;
+
+            const isStrong = isValidLength && hasUppercase && hasLetter && hasNumber;
+
+            if (isStrong && passwordsMatch) {
+                submitBtn.disabled = false;
+                submitBtn.style.opacity = 1;
+            } else {
+                submitBtn.disabled = true;
+                submitBtn.style.opacity = 0.5;
+            }
         }
     </script>
 </body>

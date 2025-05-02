@@ -512,6 +512,22 @@ function spin(){
         }
       }
       win(winningSpin, winValue, betTotal);
+
+      // Enviar log da roleta
+      fetch('roleta.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          user_id: userId, // <- certifique-se que existe essa variável global
+          aposta: currentBet,
+          cor_apostada: getBetColor(),
+          resultado: (numbersBet.includes(winningSpin)) ? 'win' : 'lose',
+          valor_ganho: (numbersBet.includes(winningSpin)) ? getWinValue(winningSpin) : 0,
+          numero_sorteado: winningSpin
+        })
+      });
     }
 
     currentBet = 0;
@@ -644,3 +660,27 @@ function removeChips(){
   }
 }
 
+function getBetColor() {
+  // Se tiver apostado no 0 diretamente
+  if (numbersBet.includes(0)) return 'green';
+
+  // Verifica se todos os números apostados são vermelhos
+  if (numbersBet.every(num => numRed.includes(num))) return 'red';
+
+  // Verifica se todos são pretos
+  if (numbersBet.every(num => !numRed.includes(num) && num !== 0)) return 'black';
+
+  // Se for uma mistura de cores ou apostas complexas
+  return 'mixed';
+}
+
+function getWinValue(winningSpin) {
+  let winValue = 0;
+  for (let i = 0; i < bet.length; i++) {
+    let numArray = bet[i].numbers.split(',').map(Number);
+    if (numArray.includes(winningSpin)) {
+      winValue += bet[i].odds * bet[i].amt;
+    }
+  }
+  return winValue;
+}

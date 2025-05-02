@@ -1,5 +1,5 @@
-html, body{
-    font-family: arial;
+  html, body {
+    font-family: Arial, sans-serif;
     cursor: default;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -7,16 +7,25 @@ html, body{
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden; /* impede scroll */
   }
-  
-  #container{
+
+  #container {
     display: flex;
     justify-content: center;
+    align-items: center;
     background-color: #016D29;
-    height: 470px;
-    padding: 20px;
+    height: 100vh;
+    width: 100vw;
+    padding: 0px;
+    margin: 0;
     color: #fff;
   }
+
   
   /*notification*/
   #notification{

@@ -22,7 +22,7 @@ class Note {
     }
 }
 
-const multipliers = [50, 20, 10, 5, 3, 2, 1.5, 1.2, 1, 1.2, 1.5, 2, 3, 5, 10, 20, 50];
+const multipliers = [50, 20, 10, 5, 3, 1, 0.7, 0.5, 0.3, 0.5, 0.7, 1, 3, 5, 10, 20, 50];
 
 document.addEventListener("DOMContentLoaded", function () {
     // Garante que os multiplicadores correspondem corretamente aos elementos HTML
@@ -64,19 +64,41 @@ document.addEventListener("DOMContentLoaded", function () {
     let autoDroppingInterval = null;
 
     dropButton.addEventListener("click", () => {
+        if (autoDropEnabled) {
+            console.log("🛑 Auto-drop ativo: parando...");
+            // Desativar o auto-drop
+            autoDropEnabled = false;
+            dropButton.innerHTML = "Jogar";
+            autoDropCheckbox.checked = false;
+            if (autoDroppingInterval) {
+                clearInterval(autoDroppingInterval);
+                autoDroppingInterval = null;
+            }
+            return;
+        }
+    
         console.log("🖱️ Botão 'Jogar' clicado, chamando placeBet()...");
         placeBet();
-    });
-    
+    });    
 
     if (autoDropCheckbox) {
         autoDropCheckbox.addEventListener("input", (e) => {
             autoDropEnabled = e.target.checked;
-            dropButton.innerHTML = autoDropEnabled ? "Começar" : "Jogar";
-
+            dropButton.innerHTML = autoDropEnabled ? "Parar" : "Jogar";
+    
+            // Se já está a correr, para
             if (autoDroppingInterval) {
                 clearInterval(autoDroppingInterval);
                 autoDroppingInterval = null;
+            }
+    
+            // Se o checkbox estiver ativado, inicia o auto-drop
+            if (autoDropEnabled) {
+                autoDroppingInterval = setInterval(() => {
+                    if (!betInProgress) {
+                        placeBet();
+                    }
+                }, 500); // lança uma bola a cada 0.5 segundos
             }
         });
     } else {
@@ -99,10 +121,6 @@ function dropABall(betAmount) {
         console.error("Saldo insuficiente para lançar a bola.");
         return;
     }
-
-    // Atualiza o saldo ao lançar a bola
-    let novoSaldo = saldoAtual - betAmount;
-    saldoElement.value = novoSaldo.toFixed(2);
 
     const dropLeft = width / 2 - GAP;
     const dropRight = width / 2 + GAP;
@@ -225,28 +243,71 @@ Matter.Events.on(engine, "collisionStart", (event) => {
         function addWinToSaldo(winAmount) {
             let saldoElement = document.getElementById("saldo");
             let saldoAtual = parseFloat(saldoElement.value.replace(/[^\d.]/g, '')) || 0;
-            let novoSaldo = saldoAtual + winAmount;
             
+            let novoSaldo = saldoAtual + winAmount; 
+        
             saldoElement.value = novoSaldo.toFixed(2);
             console.log(`✅ Saldo atualizado corretamente: ${saldoElement.value}`);
-        }
+        }                       
+        
+        function atualizarSaldoNoServidor(winAmount) {
+            if (!winAmount || isNaN(winAmount) || winAmount <= 0) {
+                console.error("Erro: winAmount inválido!", winAmount);
+                return;
+            }
+        
+            let formData = new FormData();
+            formData.append("win_amount", winAmount.toFixed(2));
+        
+            fetch("plinko.php", {
+                method: "POST",
+                body: formData
+            })  
+            .then(response => response.json())
+            .then(data => {
+                console.log("Resposta do servidor:", data);
+                if (data.success) {
+                    updateSaldo(parseFloat(data.new_balance));
+                } else {
+                    console.error("Erro do servidor:", data.error);
+                }
+            })
+            .catch(error => {
+                console.error("Erro na requisição:", error);
+            });
+        }                   
         
         // Dentro do evento de colisão onde a bola cai no multiplicador:
         if (ball && sensor) {
-            const multiplierIndex = parseInt(sensor.label.split("-")[1]); // Obtém o índice do multiplicador
-            const multiplier = multipliers[multiplierIndex]; // Obtém o valor do multiplicador
+            const multiplierIndex = parseInt(sensor.label.split("-")[1]);
+            const multiplier = multipliers[multiplierIndex];
         
             console.log(`🎯 Bola caiu no multiplicador ${multiplier}x`);
         
-            if (ball.betAmount) {
-                const winAmount = ball.betAmount * multiplier;
-                console.log(`💰 Jogador ganhou: ${winAmount.toFixed(2)}`);
-                addWinToSaldo(winAmount);  // Agora soma corretamente o valor ao saldo!
+            const noteElement = document.getElementById(`note-${multiplierIndex}`);
+            if (noteElement) {
+                noteElement.setAttribute("data-pressed", "true");
+                setTimeout(() => {
+                    noteElement.removeAttribute("data-pressed");
+                }, 500);
             }
         
-            // Remove a bola do jogo
+            if (ball.betAmount) {
+                const winAmount = ball.betAmount * multiplier;
+                const ballPosition = ball.position.x.toFixed(2);
+        
+                console.log(`💰 Jogador ganhou: ${winAmount.toFixed(2)}`);
+        
+                addWinToSaldo(winAmount);
+                atualizarSaldoNoServidor(winAmount);
+        
+                registarLog(ball.betAmount, multiplier, winAmount, ballPosition);
+            } else {
+                console.error("⚠️ Erro: betAmount está indefinido na bola.");
+            }
+        
             Matter.Composite.remove(engine.world, ball);
-        }        
+        }               
     });
 });
 
@@ -362,9 +423,6 @@ function placeBet() {
         return;
     }
 
-    let novoSaldo = saldoAtual - betAmount;
-    updateSaldo(novoSaldo); // Desconta do saldo antes da requisição
-
     let formData = new FormData();
     formData.append("bet_amount", betAmount);
 
@@ -391,5 +449,25 @@ function placeBet() {
 
     dropABall(betAmount);
 }
+
+function registarLog(betAmount, multiplier, winAmount, ballPosition) {
+    fetch("plinko.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: `log=1&bet_amount=${betAmount}&multiplier=${multiplier}&win_amount=${winAmount}&ball_position=${ballPosition}`
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (!data.success) {
+            console.error("Erro ao guardar log:", data.error);
+        }
+    })
+    .catch(error => {
+        console.error("Erro no envio de log:", error);
+    });
+}
+
 
 run();

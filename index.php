@@ -9,7 +9,6 @@ $user_id = $_SESSION['user_id'] ?? null; // Obtém o ID do utilizador autenticad
 $referral_code = ''; // Valor padrão caso não tenha código
 
 if ($autenticado) {
-    // Consulta usando MySQLi
     $stmt = $liga->prepare("SELECT referral_code FROM users WHERE id = ?");
     $stmt->bind_param("i", $user_id);
     $stmt->execute();
@@ -19,6 +18,11 @@ if ($autenticado) {
     if ($user) {
         $referral_code = $user['referral_code'];
     }
+}
+
+if (isset($_SESSION['user_id'])) {
+    $stmt = $liga->prepare("UPDATE users SET last_active = ? WHERE id = ?");
+    $stmt->execute([time(), $_SESSION['user_id']]);
 }
 ?>
 
@@ -41,9 +45,9 @@ if ($autenticado) {
         </div>
         <nav class="nav-links">
             <a href="index.php"><i class="fas fa-dice"></i> Casino</a>
-            <a href="#"><i class="fas fa-chart-bar"></i> Estatísticas</a>
+            <a href="estatisticas.php"><i class="fas fa-chart-bar"></i> Estatísticas</a>
             <a href="faq.html"><i class="fas fa-question-circle"></i> FAQ</a>
-            <a href="suporte.php"><i class="fas fa-headset"></i> Suporte</a>
+            <a href="chat_suporte.php"><i class="fas fa-headset"></i> Suporte</a>
         </nav>
         <div class="nav-buttons">
             <?php if ($autenticado): ?>
@@ -66,7 +70,6 @@ if ($autenticado) {
         <button class="close-modal-btn" onclick="closeModal()">Fechar</button>
     </div>
 
-
     <!-- Barra Lateral com Botão de Expansão -->
     <aside class="icon-sidebar" onmouseover="expandSidebar()" onmouseout="collapseSidebar()">
         <div class="menu-toggle">
@@ -74,15 +77,30 @@ if ($autenticado) {
         </div>
         <div class="icon">
             <i class="fas fa-trophy"></i> 
-            <span class="icon-label">Minhas Vitórias</span>
+            <a href="estatisticas.php">
+                <span class="icon-label">Minhas Vitórias</span>
+            </a>
         </div>
-        <div class="icon">
-            <i class="fas fa-gift"></i>
-            <span class="icon-label">Ofertas</span>
-        </div>
-        <div class="icon">
-            <i class="fas fa-gamepad"></i>
-            <span class="icon-label">Jogos Exclusivos</span>
+
+        <div class="icon dropdown-toggle" onclick="toggleDropdown()"> 
+            <div class="dropdown-header">
+                <i class="fas fa-gamepad"></i>
+                <span class="icon-label">Jogos Exclusivos</span>
+                <i class="fas fa-chevron-down dropdown-arrow"></i>
+            </div>
+
+            <div class="dropdown-menu" id="dropdown-menu">
+                <a href="roleta.php">
+                    <span>Roleta</span>
+                </a>
+                <a href="mines.php">
+                    <span>Mines</span>
+                </a>
+                <a href="plinko.php">
+                    <span>Plinko</span>
+                </a>
+                <span>Crash</span>
+            </div>
         </div>
     </aside>
 
@@ -106,7 +124,7 @@ if ($autenticado) {
             <!-- Grelha de Jogos -->
             <h2>Jogos Exclusivos</h2>
             <div class="games-grid">
-                <a href="roleta.html" class="game-card" style="background-image: url('imagens/roleta.png');">
+                <a href="roleta.php" class="game-card" style="background-image: url('imagens/roleta.png');">
                     <span>ROLETA</span>
                 </a>
                 <a href="mines.php" class="game-card" style="background-image: url('imagens/mines.png');">
@@ -282,27 +300,32 @@ if ($autenticado) {
     </div>
 </footer>
 
+<!-- Códigos em JavaScript -->
 <script>
     // Atualiza o ano automaticamente
     document.getElementById("year").textContent = new Date().getFullYear();
-</script>
 
-    <!-- Códigos em JavaScript -->
-    <script>
         function expandSidebar() {
             const sidebar = document.querySelector('.icon-sidebar');
-            sidebar.style.width = '200px'; // Expande a barra lateral
+            sidebar.classList.add('expanded');
+            sidebar.style.width = '200px';
 
             const mainContent = document.querySelector('.main-content');
-            mainContent.style.marginLeft = '200px'; // Ajusta o conteúdo principal
+            if (mainContent) mainContent.style.marginLeft = '200px';
         }
 
         function collapseSidebar() {
             const sidebar = document.querySelector('.icon-sidebar');
-            sidebar.style.width = '60px'; // Retrai a barra lateral
+            sidebar.classList.remove('expanded');
+            sidebar.style.width = '60px';
 
             const mainContent = document.querySelector('.main-content');
-            mainContent.style.marginLeft = '60px'; // Ajusta o conteúdo principal
+            if (mainContent) mainContent.style.marginLeft = '60px';
+        }
+
+        function toggleDropdown() {
+            const dropdown = document.querySelector('.dropdown-toggle');
+            dropdown.classList.toggle('open');
         }
 
         // Abre o modal e aplica o efeito "blur"
@@ -318,17 +341,29 @@ if ($autenticado) {
             document.getElementById('modal-backdrop').style.display = 'none';
             document.getElementById('content').style.filter = 'none';
         }
-    </script>
 
-    <script>
         function openReferralModal() {
             document.getElementById("refer-code-modal").style.display = "block";
             document.getElementById("modal-backdrop-referral").style.display = "block";
+            document.getElementById('content').style.filter = 'blur(5px)';
         }
 
         function closeReferralModal() {
             document.getElementById("refer-code-modal").style.display = "none";
             document.getElementById("modal-backdrop-referral").style.display = "none";
+            document.getElementById('content').style.filter = 'none';
+        }
+
+        function openReferralModal2() {
+            document.getElementById("referral-modal").style.display = "block";
+            document.getElementById("modal-backdrop-referral").style.display = "block";
+            document.getElementById('content').style.filter = 'blur(5px)';
+        }
+
+        function closeReferralModal2() {
+            document.getElementById("referral-modal").style.display = "none";
+            document.getElementById("modal-backdrop-referral").style.display = "none";
+            document.getElementById('content').style.filter = 'none';
         }
 
         function applyReferralCode() {
@@ -353,16 +388,6 @@ if ($autenticado) {
                 }
             })
             .catch(error => console.error('Erro:', error));
-        }
-    </script>
-
-    <script>
-        function openReferralModal2() {
-            document.getElementById("referral-modal").style.display = "block";
-        }
-
-        function closeReferralModal2() {
-            document.getElementById("referral-modal").style.display = "none";
         }
 
         function copyReferralCode() {
@@ -394,7 +419,7 @@ if ($autenticado) {
             }
 
             // 🔗 Link para a página onde o código pode ser inserido
-            let referralLink = "https://teusite.com/referral?code=" + referralCode;
+            let referralLink = "http://localhost/PAP/index.php/referral?code=" + referralCode;
 
             // 📩 Mensagem personalizada
             let message = encodeURIComponent(
@@ -415,23 +440,33 @@ if ($autenticado) {
     <div id="refer-code-modal" class="modal">
         <div class="modal-content">
             <h2>Inserir Código Referencial</h2>
-            <input type="text" id="referral-code" placeholder="Insira o código">
-            <button onclick="applyReferralCode()">Aplicar</button>
-            <button class="close-modal-btn" onclick="closeReferralModal()">Fechar</button>
+            <input type="text" id="referral-code" name="referral-code" class="referral-input" placeholder="Insira o código">
+            <button class="referral-apply-btn" onclick="applyReferralCode()">Aplicar</button>
         </div>
+        <button class="close-modal-btn" onclick="closeReferralModal()">Fechar</button>
     </div>
 
     <!-- Fundo escuro para o modal -->
     <div id="modal-backdrop-referral" class="modal-backdrop" onclick="closeReferralModal()"></div>
 
-    <!-- Modal do Código Referencial -->
-    <div class="modal" id="referral-modal">
-        <h2>O teu Código Referencial</h2>
-        <div class="referral-box">
-            <input type="text" id="referral-code2" value="<?= htmlspecialchars($referral_code) ?>" readonly>
-            <button onclick="copyReferralCode()"><i class="fas fa-copy"></i> Copiar</button>
-            <button onclick="shareOnWhatsApp()"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+    <div id="referral-modal" class="modal">
+        <div class="modal-content2">
+            <h2>O teu Código Referencial</h2>
+
+            <label for="referral-code2" class="referral-label">Partilha com os teus amigos!</label>
+            <input type="text" id="referral-code2" name="referral-code" class="referral-input" value="<?= htmlspecialchars($referral_code) ?>" readonly>
+
+            <div class="referral-buttons">
+                <button onclick="copyReferralCode()" class="copy-btn">
+                    <i class="fa-solid fa-copy"></i> Copiar
+                </button>
+
+                <button onclick="shareOnWhatsApp()" class="whatsapp-btn">
+                    <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                </button>
+            </div>
         </div>
+
         <button class="close-modal-btn" onclick="closeReferralModal2()">Fechar</button>
     </div>
 

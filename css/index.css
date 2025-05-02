@@ -130,7 +130,6 @@ body {
     overflow: hidden; 
     transition: width 0.3s ease-in-out, margin-left 0.3s ease-in-out; 
     position: absolute;
-    z-index: 1000; 
 }
 
 .icon-sidebar:hover {
@@ -184,6 +183,66 @@ body {
 
 .icon-sidebar:hover + .main-content {
     margin-left: 200px; /* Alinha o conteúdo quando a barra lateral está expandida */
+}
+
+.dropdown-toggle {
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.dropdown-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Por padrão, seta oculta */
+.dropdown-arrow {
+    display: none;
+    margin-left: 8px;
+    transition: transform 0.3s ease;
+}
+
+/* Só aparece quando a sidebar está expandida */
+.icon-sidebar.expanded .dropdown-arrow {
+    display: inline-block;
+}
+
+/* Gira a seta quando o dropdown está aberto */
+.dropdown-toggle.open .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+/* Oculta o menu por padrão */
+.dropdown-menu {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    margin-left: 35px;
+    margin-top: 5px;
+}
+
+
+.dropdown-menu span {
+    font-size: 0.95rem;
+    color: #fff;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.dropdown-menu span:hover {
+    color: #AF1D1D;
+}
+
+.dropdown-toggle.open .dropdown-menu {
+    display: flex;
+}
+
+.dropdown-toggle.open .dropdown-arrow {
+    transform: rotate(180deg);
 }
 
 /* Promoções */
@@ -460,8 +519,6 @@ footer {
     margin-top: 20px;
 }
 
-
-
 /* Botão para abrir o modal */
 .open-modal-btn {
     padding: 10px 20px;
@@ -474,43 +531,173 @@ footer {
 
 /* Estilo do modal */
 .modal {
-    display: none; /* Escondido por padrão */
+    display: none;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: #0C0C0C url('../imagens/fundo.png') no-repeat center center;
-    background-color: rgb(0, 0, 0);
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #111;
+    padding: 35px 25px;
+    border-radius: 16px;
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.2);
     z-index: 1000;
+    max-width: 500px;
+    width: 90%;
+    color: #fff;
+    font-family: 'Sora', sans-serif;
 }
 
 /* Fundo escuro por trás do modal */
 .modal-backdrop {
-    display: none; /* Escondido por padrão */
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.6);
     z-index: 999;
+    pointer-events: auto;
 }
 
 /* Botão para fechar o modal */
 .close-modal-btn {
-    margin-top: 10px;
-    padding: 10px 20px;
-    background-color: #DC3545;
-    color: rgb(0, 0, 0);
+    background-color: #AF1D1D;
+    color: #ffffff;
     border: none;
+    padding: 10px 18px;
+    font-size: 14px;
+    border-radius: 12px;
     cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s ease, transform 0.2s ease;
+    display: inline-block;
+    margin-top: 30px;
 }
 
+/* Hover e animação */
+.close-modal-btn:hover {
+    background-color: #d63031;
+    transform: scale(1.05);
+}
 
+/* Responsivo */
+@media (max-width: 480px) {
+    .modal {
+        padding: 25px 20px;
+    }
 
+    .close-modal-btn {
+        padding: 10px 16px;
+        font-size: 13px;
+    }
+}
 
+.modal-content2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.modal-content2 h2 {
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.referral-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.referral-label {
+    font-size: 1.1rem;
+    color: #f0f0f0;
+    font-weight: 500;
+    margin-bottom: 6px;
+    text-align: center;
+}
+
+.referral-input {
+    justify-content: center;
+    padding: 12px 16px;
+    border: 1px solid #444;
+    border-radius: 10px;
+    background-color: #1e1e2f;
+    color: #fff;
+    font-size: 1rem;
+    width: 80%;
+    max-width: 300px;
+    transition: border 0.3s ease;
+}
+
+.referral-input:focus {
+    border-color: #AF1D1D;
+    outline: none;
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.2);
+}
+
+.referral-apply-btn {
+    padding: 10px 24px;
+    border: none;
+    border-radius: 8px;
+    background-color: #AF1D1D;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s;
+}
+
+.referral-apply-btn:hover {
+    background-color: #d63031;
+    transform: scale(1.05);
+}
+
+.referral-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 8px;
+}
+
+.copy-btn,
+.whatsapp-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.copy-btn {
+    background-color: #AF1D1D;
+    color: #fff;
+}
+
+.copy-btn:hover {
+    background-color: #d63031;
+    transform: scale(1.05);
+}
+
+.whatsapp-btn {
+    background-color: #25D366;
+    color: #fff;
+}
+
+.whatsapp-btn:hover {
+    background-color: #1ebe5d;
+    transform: scale(1.05);
+}
 
 /* From Uiverse.io by javierBarroso */ 
 .social-login-icons {

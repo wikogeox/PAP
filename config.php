@@ -8,7 +8,7 @@ if (!$liga) {
 mysqli_select_db($liga, 'pap');
 
 // Verifica se o email existe
-if (isset($_POST['email'])) {  // Certifica-te de que o campo 'username' existe
+if (isset($_POST['email'])) {  
     $email = $_POST['email'];
 
     // Verifica se o utilizador existe na base de dados
@@ -25,5 +25,5 @@ if (isset($_POST['email'])) {  // Certifica-te de que o campo 'username' existe
 //API do paypal
 define('PAYPAL_CLIENT_ID', 'Abx3ripqyM5FFfzIZdIpakbH1qokW3W8AyVCwZQSpwcoc4yPh8_qUPokC3a1dtMKuZ2-mO1VpioBifuE');
 define('PAYPAL_SECRET', 'EOFwOkdsHVryDLKddXWduqBbLVNQ5P0h0Xh8QPiwqQ7VF55CyIsGDESiVW7t5HltaApZ0aSugpmppcMx');
-define('PAYPAL_MODE', 'sandbox'); // sandbox para testes, use 'live' em produção
+define('PAYPAL_MODE', 'sandbox'); 
 ?>

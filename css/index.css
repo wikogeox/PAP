@@ -176,7 +176,7 @@ body {
 /* Ajuste para o conteúdo principal com a barra lateral */
 .main-content {
     display: flex;
-    margin-top: 20px;
+    margin-top: 15px;
     margin-left: 60px; /* Ajuste inicial da margem para 60px */
     transition: margin-left 0.3s ease-in-out; /* Sincroniza com a barra lateral */
 }

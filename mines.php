@@ -3,6 +3,14 @@ session_start();
 
 include 'config.php'; // Inclui a conexão com a base de dados
 
+if (!isset($_SESSION['user_id'])) {
+    echo "<script>
+        alert('Você precisa estar logado para acessar esta funcionalidade.');
+        window.location.href = 'index.php';
+    </script>";
+    exit;
+}
+
 $user_id = $_SESSION['user_id'];
 
 // Obter saldo do utilizador

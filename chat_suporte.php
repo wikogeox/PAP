@@ -3,6 +3,14 @@ session_start();
 require 'config.php';
 
 if (!isset($_SESSION['user_id'])) {
+    echo "<script>
+        alert('Você precisa estar logado para acessar esta funcionalidade.');
+        window.location.href = 'index.php';
+    </script>";
+    exit;
+}
+
+if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit;
 }

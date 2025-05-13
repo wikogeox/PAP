@@ -64,7 +64,7 @@
             const passwordField = document.getElementById('password-field');
             const eyeIcon = document.getElementById('eye-icon');
     
-            // Alternar entre mostrar e esconder a senha
+            // Alternar entre mostrar e esconder a password
             if (passwordField.type === 'password') {
                 passwordField.type = 'text';
                 eyeIcon.classList.remove('fa-eye');
@@ -91,7 +91,7 @@
                         success: function(response) {
                             const result = JSON.parse(response);
                             if (result.exists) {
-                                window.location.href = 'alterarPW.html?email=' + encodeURIComponent(email); // Redireciona para a página de alterar senha
+                                window.location.href = 'alterarPW.html?email=' + encodeURIComponent(email); // Redireciona para a página de alterar password
                             } else {
                                 alert("O email não está registado."); // Exibe a mensagem de erro
                             }

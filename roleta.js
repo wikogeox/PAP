@@ -520,7 +520,7 @@ function spin(){
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          user_id: userId, // <- certifique-se que existe essa variável global
+          user_id: userId, 
           aposta: currentBet,
           cor_apostada: getBetColor(),
           resultado: (numbersBet.includes(winningSpin)) ? 'win' : 'lose',

@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             if ($result->num_rows > 0) {
                 // Atualiza a palavra-passe na base de dados
-                $hashedPassword = password_hash($new_password, PASSWORD_DEFAULT); // Criptografa a nova senha
+                $hashedPassword = password_hash($new_password, PASSWORD_DEFAULT); // Criptografa a nova password
                 $sql_update = "UPDATE users SET password_hash = ? WHERE email = ?";
                 $stmt_update = $liga->prepare($sql_update);
 

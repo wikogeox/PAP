@@ -2,11 +2,15 @@
 session_start();
 include 'config.php';
 
-$data = json_decode(file_get_contents("php://input"), true);
-
 if (!isset($_SESSION['user_id'])) {
-    die(json_encode(["success" => false, "error" => "Usuário não autenticado."]));
+    echo "<script>
+        alert('Você precisa estar logado para acessar esta funcionalidade.');
+        window.location.href = 'index.php';
+    </script>";
+    exit;
 }
+
+$data = json_decode(file_get_contents("php://input"), true);
 
 if ($data) {
     $user_id = intval($data['user_id']);

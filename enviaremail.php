@@ -18,7 +18,7 @@ function enviarEmail($email, $username) {
         $mail->Port       = 587;
 
         // Remetente e destinatário
-        $mail->setFrom('ivanalmeida02@gmail.com', 'Ivan Almeida');
+        $mail->setFrom('ivanalmeida02@gmail.com', 'BetKingdom');
         $mail->addAddress($email, $username);
 
         // Configuração do email em HTML
@@ -73,7 +73,7 @@ function enviarEmail($email, $username) {
                 <p>Obrigado por se registar no nosso site. Estamos muito felizes em tê-lo conosco! 🎉</p>
                 <p>Explore tudo o que temos para oferecer e aproveite a sua experiência.</p>
                 <a href="http://localhost/PAP/login.html" class="btn">Comece agora</a>
-                <p>Atenciosamente,<br> <strong>Ivan Almeida</strong></p>
+                <p>Atenciosamente,<br> <strong>BetKingdom</strong></p>
             </div>
         </body>
         </html>';
@@ -90,10 +90,4 @@ function enviarEmail($email, $username) {
     }
 }
 
-// Testando o envio
-if (enviarEmail("a259823716@aeaquaalba.pt", "Ivan")) {
-    echo "E-mail enviado com sucesso!";
-} else {
-    echo "Erro ao enviar o e-mail.";
-}
 ?>

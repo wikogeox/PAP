@@ -3,8 +3,11 @@ include 'config.php';
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit();
+    echo "<script>
+        alert('Você precisa estar logado para acessar esta funcionalidade.');
+        window.location.href = 'index.php';
+    </script>";
+    exit;
 }
 
 $user_id = $_SESSION['user_id'];

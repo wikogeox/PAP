@@ -99,7 +99,6 @@ if (isset($_SESSION['user_id'])) {
                 <a href="plinko.php">
                     <span>Plinko</span>
                 </a>
-                <span>Crash</span>
             </div>
         </div>
     </aside>
@@ -133,15 +132,7 @@ if (isset($_SESSION['user_id'])) {
                 <a href="plinko.php" class="game-card" style="background-image: url('imagens/plinko.png');">
                     <span>PLINKO</span>
                 </a>
-                <a href="" class="game-card" style="background-image: url('imagens/crash.png');">
-                    <span>CRASH</span>
-                </a>
-                <a href="" class="game-card" style="background-image: url('');">
-                    <span> </span>
-                </a>
-                <a href="" class="game-card" style="background-image: url('');">
-                    <span> </span>
-                </a> 
+
             </div>
         </section>
     </div>
@@ -305,6 +296,8 @@ if (isset($_SESSION['user_id'])) {
     // Atualiza o ano automaticamente
     document.getElementById("year").textContent = new Date().getFullYear();
 
+    const autenticado = <?= json_encode($autenticado) ?>;
+
         function expandSidebar() {
             const sidebar = document.querySelector('.icon-sidebar');
             sidebar.classList.add('expanded');
@@ -343,6 +336,11 @@ if (isset($_SESSION['user_id'])) {
         }
 
         function openReferralModal() {
+            if (!autenticado) {
+                alert("Para usar o código referencial, você precisa estar logado.");
+                window.location.href = "index.php"; 
+                return;
+            }
             document.getElementById("refer-code-modal").style.display = "block";
             document.getElementById("modal-backdrop-referral").style.display = "block";
             document.getElementById('content').style.filter = 'blur(5px)';
@@ -355,6 +353,11 @@ if (isset($_SESSION['user_id'])) {
         }
 
         function openReferralModal2() {
+            if (!autenticado) {
+                alert("Para partilhar o seu código, você precisa estar logado.");
+                window.location.href = "index.php"; 
+                return;
+            }
             document.getElementById("referral-modal").style.display = "block";
             document.getElementById("modal-backdrop-referral").style.display = "block";
             document.getElementById('content').style.filter = 'blur(5px)';
@@ -394,7 +397,7 @@ if (isset($_SESSION['user_id'])) {
             let copyText = document.getElementById("referral-code2");
 
             if (!copyText || !copyText.value.trim()) {
-                alert("O código está vazio. Verifica se foi gerado corretamente.");
+                alert("O código está vazio.");
                 console.log("Valor do input:", copyText ? copyText.value : "Elemento não encontrado");
                 return;
             }
@@ -414,7 +417,7 @@ if (isset($_SESSION['user_id'])) {
             let referralCode = document.getElementById("referral-code2").value.trim();
 
             if (!referralCode) {
-                alert("O código está vazio. Verifica se foi gerado corretamente.");
+                alert("O código está vazio.");
                 return;
             }
 

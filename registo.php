@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     $username = trim($_POST['username']);
     $email = trim($_POST['email']);
     $password = trim($_POST['password']);
-    $confirmPassword = trim($_POST['confirmPassword']); // Para confirmar que as senhas coincidem
+    $confirmPassword = trim($_POST['confirmPassword']); // Para confirmar que as passwords coincidem
 
     // Verifica se todos os campos foram preenchidos
     if (empty($username) || empty($email) || empty($password) || empty($confirmPassword)) {
@@ -28,9 +28,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         exit();
     }
 
-    // Verifica se as senhas coincidem
+    // Verifica se as passwords coincidem
     if ($password !== $confirmPassword) {
-        echo "<script>alert('As senhas não coincidem.'); window.location.href = 'registo.html';</script>";
+        echo "<script>alert('As passwords não coincidem.'); window.location.href = 'registo.html';</script>";
         exit();
     }
 
@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         exit();
     }
 
-    // Criptografa a senha antes de armazená-la
+    // Criptografa a password antes de armazená-la
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
     function generateReferralCode($length = 8) {

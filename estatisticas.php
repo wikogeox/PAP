@@ -28,7 +28,7 @@ function getJogadasPorDia($liga, $tabela, $colData, $user_id, $colGanho, $colApo
                    SUM($colAposta) as gastos
             FROM $tabela 
             WHERE user_id = ? 
-              AND $colData >= DATE_SUB(NOW(), INTERVAL 7 DAY)
+            AND $colData >= DATE_SUB(NOW(), INTERVAL 7 DAY)
             GROUP BY dia 
             ORDER BY dia";
     $stmt = $liga->prepare($sql);
@@ -239,7 +239,7 @@ $jogos = [
                 scales: {
                     y: {
                         ticks: {
-                            color: '#ccc' // <- sem callback de €
+                            color: '#ccc' 
                         },
                         title: {
                             display: true,
@@ -247,7 +247,7 @@ $jogos = [
                             color: '#f5f5f5'
                         }
                     },
-                    x: optionsComuns.scales.x // Reutiliza a escala X
+                    x: optionsComuns.scales.x 
                 },
                 plugins: {
                     ...optionsComuns.plugins,

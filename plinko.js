@@ -36,7 +36,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-
 // Create notes
 const notes = [
     "C#5", "C5", "B5", "A#5", "A5", "G#4", "G4", "F#4", "F4", "F#4", "G4", "G#4", "A5", "A#5", "B5", "C5", "C#5"

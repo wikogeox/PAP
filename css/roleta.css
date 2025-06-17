@@ -87,7 +87,7 @@
   /*betting table*/
   #betting_board{
     width: 500px;
-      height: 315px;
+      height: 398px;
       border: 1px solid;
   }
   
@@ -181,8 +181,8 @@
   .wlttb{
     position: relative;
     width: 100%;
-      height: 10px;
-      margin-left: -7.75px;
+    height: 10px;
+    margin-left: -7.75px;
     top: 269px;
   }
   
@@ -225,9 +225,9 @@
   }
   
   .cbbb{
-      width: 20px;
-      height: 20px;
-      position: relative;
+    width: 20px;
+    height: 20px;
+    position: relative;
     display: inline-block;
     margin-left:22px;
     margin-top: 9.5px;
@@ -263,7 +263,7 @@
   
   .rtlbb1, .rtlbb2, .rtlbb3{
     height: 45px;
-      margin-top: 23px;
+    margin-top: 23px;
     width: 10px;
   }
   
@@ -273,7 +273,7 @@
   
   .spinBtn{
     position: absolute;
-    margin-top: 329px;
+    margin-top: 375px;
     margin-left: -392px;
     font-size: 15px;
     cursor: pointer;
@@ -295,7 +295,7 @@
   .chipDeck, .bankContainer{
     position: absolute;
     margin-left: -383px;
-    margin-top: -74px;
+    margin-top: -34px;
     width: 310px;
     height:39px;
     padding: 3px 0;
@@ -305,18 +305,18 @@
   }
   
   .bankContainer{
-    margin-top: -21px;
+    margin-top: 20px;
   }
   
   .cdChip{
     width: 27px;
-      height: 27px;
-      background-color: #fff;
-      border: 5px solid;
-      border-radius: 100%;
-      display: inline-block;
-      margin-left: 9px;
-      color: #000;
+    height: 27px;
+    background-color: #fff;
+    border: 5px solid;
+    border-radius: 100%;
+    display: inline-block;
+    margin-left: 9px;
+    color: #000;
     cursor: pointer;
   }
   
@@ -337,26 +337,29 @@
   }
   
   .clearBet{
+    position: absolute;
     border-color:red;
     background-color:red;
     color:#fff;
-    margin-left:22px;
+    margin-left:10px;
+    border-radius: 100%;
+    padding: 0px 10px;
   }
   
   .clearBet .cdChipSpan{
-    margin-left:-2px;
+    margin-left:-10px;
   }
   
   .bank, .bet{
     display: inline-block;
     width: calc(50% - 28px);
-      background-color: #000;
-      font-size: 18px;
-      margin-left: 7px;
-      padding: 5px;
-      border: 4px solid silver;
-      border-radius: 7px;
-      text-align: right;
+    background-color: #000;
+    font-size: 18px;
+    margin-left: 7px;
+    padding: 5px;
+    border: 4px solid silver;
+    border-radius: 7px;
+    text-align: right;
   }
   
   .pnBlock{
@@ -389,7 +392,7 @@
     top: 5px;
   }.pnRed{
     color: red;
-  }.pnBlack{
+  }.pnBlack{  
     color: black;
   }.pnGreen{
     color: green;
@@ -721,12 +724,12 @@
   
   /*chip*/
   .chip{
-      width: 21px;
+    width: 21px;
     height: 21px;
     background-color:#fff;
     border: 3px solid;
     border-radius: 100%;
-      position:absolute;
+    position:absolute;
   }
   
   .chipSpan{

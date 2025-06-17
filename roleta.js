@@ -1,6 +1,6 @@
-let bankValue = 1000;
+let bankValue = initialBalance;
 let currentBet = 0;
-let wager = 5;
+let wager = 1;
 let lastWager = 0;
 let bet = [];
 let numbersBet = [];
@@ -18,39 +18,9 @@ startGame();
 let wheel = document.getElementsByClassName('wheel')[0];
 let ballTrack = document.getElementsByClassName('ballTrack')[0];
 
-function resetGame(){
-  bankValue = 1000;
-  currentBet = 0;
-  wager = 5;
-  bet = [];
-  numbersBet = [];
-  previousNumbers = [];
-  document.getElementById('betting_board').remove();
-  document.getElementById('notification').remove();
-  buildBettingBoard();
-}
-
 function startGame(){
   buildWheel();
   buildBettingBoard();
-}
-
-function gameOver(){
-  let notification = document.createElement('div');
-  notification.setAttribute('id', 'notification');
-    let nSpan = document.createElement('span');
-    nSpan.setAttribute('class', 'nSpan');
-    nSpan.innerText = 'Bankrupt';
-    notification.append(nSpan);
-
-    let nBtn = document.createElement('div');
-    nBtn.setAttribute('class', 'nBtn');
-    nBtn.innerText = 'Play again';  
-    nBtn.onclick = function(){
-      resetGame();
-    };
-    notification.append(nBtn);
-  container.prepend(notification);
 }
 
 function buildWheel(){
@@ -256,7 +226,7 @@ function buildBettingBoard(){
     bbtoptwo.setAttribute('class', 'bbtoptwo');
     let num = (f == 0)? '1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18' : '19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36';
     var objType = (f == 0)? 'outside_low' : 'outside_high';
-    bbtoptwo.onclick = function(){
+      bbtoptwo.onclick = function(){
       setBet(this, num, objType, 1);
     };
     bbtoptwo.oncontextmenu = function(e){
@@ -344,7 +314,7 @@ function buildBettingBoard(){
 
   let otoBoard = document.createElement('div');
   otoBoard.setAttribute('class', 'oto_board');  
-  let otoBlocks = ['EVEN', 'RED', 'BLACK', 'ODD'];
+  let otoBlocks = ['PAR', 'RED', 'BLACK', 'ÍMPAR'];
   for(i = 0; i < otoBlocks.length; i++){
     let d = i;
     var colourClass = (otoBlocks[i] == 'RED')? ' redNum' : ((otoBlocks[i] == 'BLACK')? ' blackNum' : '');
@@ -366,7 +336,7 @@ function buildBettingBoard(){
 
   let chipDeck = document.createElement('div');
   chipDeck.setAttribute('class', 'chipDeck');
-  let chipValues = [1, 5, 10, 100, 'clear'];
+  let chipValues = [0.2, 1, 5, 10, 'Limpar'];
   for(i = 0; i < chipValues.length; i++){
     let cvi = i;
     let chipColour = (i == 0)? 'red' : ((i == 1)? 'blue cdChipActive' : ((i == 2)? 'orange' : ((i == 3)? 'gold' : 'clearBet')));
@@ -382,7 +352,7 @@ function buildBettingBoard(){
         if(!curClass.includes('cdChipActive')){
           this.setAttribute('class', curClass + ' cdChipActive');
         }
-        wager = parseInt(chip.childNodes[0].innerText);
+        wager = parseFloat(chip.childNodes[0].innerText);
       }else{
         bankValue = bankValue + currentBet;
         currentBet = 0;
@@ -446,7 +416,7 @@ function setBet(e, n, t, o){
     if(!container.querySelector('.spinBtn')){
       let spinBtn = document.createElement('div');
       spinBtn.setAttribute('class', 'spinBtn');
-      spinBtn.innerText = 'spin';
+      spinBtn.innerText = 'Girar';
       spinBtn.onclick = function(){
         this.remove();
         spin();
@@ -460,7 +430,7 @@ function setBet(e, n, t, o){
     for(i = 0; i < bet.length; i++){
       if(bet[i].numbers == n && bet[i].type == t){
         bet[i].amt = bet[i].amt + wager;
-        let chipColour = (bet[i].amt < 5)? 'red' : ((bet[i].amt < 10)? 'blue' : ((bet[i].amt < 100)? 'orange' : 'gold'));
+        let chipColour = (bet[i].amt < 1)? 'red' : ((bet[i].amt < 5)? 'blue' : ((bet[i].amt < 10)? 'orange' : 'gold'));
         e.querySelector('.chip').style.cssText = '';
         e.querySelector('.chip').setAttribute('class', 'chip ' + chipColour);
         let chipSpan = e.querySelector('.chipSpan');
@@ -484,7 +454,7 @@ function setBet(e, n, t, o){
     }
 
     if(!e.querySelector('.chip')){
-      let chipColour = (wager < 5)? 'red' : ((wager < 10)? 'blue' : ((wager < 100)? 'orange' : 'gold'));
+      let chipColour = (wager < 1)? 'red' : ((wager < 5)? 'blue' : ((wager < 10)? 'orange' : 'gold'));
       let chip = document.createElement('div');
       chip.setAttribute('class', 'chip ' + chipColour);
       let chipSpan = document.createElement('span');
@@ -496,47 +466,67 @@ function setBet(e, n, t, o){
   }
 }
 
-function spin(){
-  var winningSpin = Math.floor(Math.random() * 36);
+function spin() {
+  const winningSpin = Math.floor(Math.random() * 36);
   spinWheel(winningSpin);
-  setTimeout(function(){
-    if(numbersBet.includes(winningSpin)){
-      let winValue = 0;
-      let betTotal = 0;
-      for(i = 0; i < bet.length; i++){
-        var numArray = bet[i].numbers.split(',').map(Number);
-        if(numArray.includes(winningSpin)){
-          bankValue = (bankValue + (bet[i].odds * bet[i].amt) + bet[i].amt);
-          winValue = winValue + (bet[i].odds * bet[i].amt);
-          betTotal = betTotal + bet[i].amt;
-        }
-      }
-      win(winningSpin, winValue, betTotal);
 
-      // Enviar log da roleta
-      fetch('roleta.php', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          user_id: userId, 
-          aposta: currentBet,
-          cor_apostada: getBetColor(),
-          resultado: (numbersBet.includes(winningSpin)) ? 'win' : 'lose',
-          valor_ganho: (numbersBet.includes(winningSpin)) ? getWinValue(winningSpin) : 0,
-          numero_sorteado: winningSpin
-        })
-      });
+  setTimeout(function () {
+    let winValue = 0;
+    let betTotal = 0;
+    let resultado = 'lose';
+
+    for (let i = 0; i < bet.length; i++) {
+      const numArray = bet[i].numbers.split(',').map(Number);
+      if (numArray.includes(winningSpin)) {
+        winValue += bet[i].odds * bet[i].amt;
+        betTotal += bet[i].amt;
+        resultado = 'win'; 
+      }
     }
 
+    if (resultado === 'win') {
+      win(winningSpin, winValue, betTotal);
+      document.getElementById('bankSpan').innerText = bankValue.toLocaleString("en-GB");
+    }
+
+    console.log({
+      user_id: userId,
+      aposta: currentBet,
+      cor_apostada: getBetColor(),
+      resultado: (numbersBet.includes(winningSpin)) ? 'win' : 'lose',
+      valor_ganho: (numbersBet.includes(winningSpin)) ? getWinValue(winningSpin) : 0,
+      numero_sorteado: winningSpin
+    });
+
+    // Enviar log da roleta
+    fetch('roleta.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        user_id: userId,
+        aposta: currentBet,
+        cor_apostada: getBetColor(),
+        resultado: (numbersBet.includes(winningSpin)) ? 'win' : 'lose',
+        valor_ganho: (numbersBet.includes(winningSpin)) ? getWinValue(winningSpin) : 0, 
+        numero_sorteado: winningSpin
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.status === "success") {
+        bankValue = data.novo_saldo;
+        document.getElementById('bankSpan').innerText = bankValue.toLocaleString("en-GB");
+      } else {
+        alert(data.message || 'Erro ao atualizar saldo');
+      }
+    });
+
     currentBet = 0;
-    document.getElementById('bankSpan').innerText = '' + bankValue.toLocaleString("en-GB") + '';
-    document.getElementById('betSpan').innerText = '' + currentBet.toLocaleString("en-GB") + '';
-    
-    let pnClass = (numRed.includes(winningSpin))? 'pnRed' : ((winningSpin == 0)? 'pnGreen' : 'pnBlack');
-    let pnContent = document.getElementById('pnContent');
-    let pnSpan = document.createElement('span');
+    document.getElementById('betSpan').innerText = '0';
+
+    const pnClass = numRed.includes(winningSpin) ? 'pnRed' : (winningSpin === 0 ? 'pnGreen' : 'pnBlack');
+    const pnContent = document.getElementById('pnContent');
+    const pnSpan = document.createElement('span');
     pnSpan.setAttribute('class', pnClass);
     pnSpan.innerText = winningSpin;
     pnContent.append(pnSpan);
@@ -546,10 +536,8 @@ function spin(){
     numbersBet = [];
     removeChips();
     wager = lastWager;
-    if(bankValue == 0 && currentBet == 0){
-      gameOver();
-    }
-  }, 10000);
+
+  }, 10000); 
 }
 
 function win(winningSpin, winValue, betTotal){
@@ -608,7 +596,7 @@ function removeBet(e, n, t, o){
         if(bet[i].amt == 0){
           e.querySelector('.chip').style.cssText = 'display:none';
         }else{
-          let chipColour = (bet[i].amt < 5)? 'red' : ((bet[i].amt < 10)? 'blue' : ((bet[i].amt < 100)? 'orange' : 'gold'));
+          let chipColour = (bet[i].amt < 1)? 'red' : ((bet[i].amt < 5)? 'blue' : ((bet[i].amt < 10)? 'orange' : 'gold'));
           e.querySelector('.chip').setAttribute('class', 'chip ' + chipColour);
           let chipSpan = e.querySelector('.chipSpan');
           chipSpan.innerText = bet[i].amt;
@@ -662,13 +650,13 @@ function removeChips(){
 
 function getBetColor() {
   // Se tiver apostado no 0 diretamente
-  if (numbersBet.includes(0)) return 'green';
+  if (numbersBet.includes(0)) return 'verde';
 
   // Verifica se todos os números apostados são vermelhos
-  if (numbersBet.every(num => numRed.includes(num))) return 'red';
+  if (numbersBet.every(num => numRed.includes(num))) return 'vermelho';
 
   // Verifica se todos são pretos
-  if (numbersBet.every(num => !numRed.includes(num) && num !== 0)) return 'black';
+  if (numbersBet.every(num => !numRed.includes(num) && num !== 0)) return 'preto';
 
   // Se for uma mistura de cores ou apostas complexas
   return 'mixed';
@@ -679,8 +667,19 @@ function getWinValue(winningSpin) {
   for (let i = 0; i < bet.length; i++) {
     let numArray = bet[i].numbers.split(',').map(Number);
     if (numArray.includes(winningSpin)) {
-      winValue += bet[i].odds * bet[i].amt;
+      winValue += bet[i].odds * bet[i].amt; 
     }
   }
   return winValue;
 }
+
+function getWinOdd(winningSpin) {
+  for (let i = 0; i < bet.length; i++) {
+    let numArray = bet[i].numbers.split(',').map(Number);
+    if (numArray.includes(winningSpin)) {
+      return bet[i].odds; // Retorna a ODD usada para cálculo
+    }
+  }
+  return 0;
+}
+

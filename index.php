@@ -123,14 +123,11 @@ if (isset($_SESSION['user_id'])) {
             <!-- Grelha de Jogos -->
             <h2>Jogos Exclusivos</h2>
             <div class="games-grid">
-                <a href="roleta.php" class="game-card" style="background-image: url('imagens/roleta.png');">
-                    <span>ROLETA</span>
+                <a href="roleta.php" class="game-card" style="background-image: url('imagens/roleta.jpg');">
                 </a>
                 <a href="mines.php" class="game-card" style="background-image: url('imagens/mines.png');">
-                    <span>MINES</span>
                 </a>
-                <a href="plinko.php" class="game-card" style="background-image: url('imagens/plinko.png');">
-                    <span>PLINKO</span>
+                <a href="plinko.php" class="game-card" style="background-image: url('imagens/plinko.jpg');">
                 </a>
 
             </div>

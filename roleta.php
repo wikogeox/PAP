@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && strpos($_SERVER["CONTENT_TYPE"], "a
     $aposta = floatval($data['aposta']);
     $cor_apostada = $data['cor_apostada'];
     $resultado = $data['resultado'];
-    $valor_ganho = floatval($data['valor_ganho']); // Aqui é a ODD
+    $valor_ganho = floatval($data['valor_ganho']); 
     $numero_sorteado = intval($data['numero_sorteado']);
     $data_hora = date('Y-m-d H:i:s');
 
@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && strpos($_SERVER["CONTENT_TYPE"], "a
 
     // Calcula novo saldo 
     if ($resultado === 'win') {
-        $ganho_total = $valor_ganho; // Já é aposta * odd
+        $ganho_total = $valor_ganho; 
         $saldo_final = $saldo + $ganho_total; 
         $valor_para_log = $ganho_total;
     } else {
@@ -61,16 +61,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && strpos($_SERVER["CONTENT_TYPE"], "a
     // Regista nas log 
     $stmt = $liga->prepare("INSERT INTO roleta_logs (user_id, aposta, cor_apostada, resultado, valor_ganho, numero_sorteado, data_hora) VALUES (?, ?, ?, ?, ?, ?, ?)");
     $stmt->bind_param("idssdis", $user_id, $aposta, $cor_apostada, $resultado, $valor_para_log, $numero_sorteado, $data_hora);
-
-    file_put_contents("roleta_debug.txt", "Valores recebidos: " . print_r([
-        'user_id' => $user_id,
-        'aposta' => $aposta,
-        'cor_apostada' => $cor_apostada,
-        'resultado' => $resultado,
-        'valor_para_log' => $valor_para_log,
-        'numero_sorteado' => $numero_sorteado,
-        'data_hora' => $data_hora
-    ], true), FILE_APPEND);
 
     if (!$stmt->execute()) {
         file_put_contents("roleta_debug.txt", "Erro ao inserir log: " . $stmt->error . "\n", FILE_APPEND);

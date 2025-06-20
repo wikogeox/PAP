@@ -20,10 +20,35 @@
             <h2 class="faq-question">Como posso depositar saldo?</h2>
             <p class="faq-answer">Podes depositar saldo através das nossas opções de pagamento disponíveis na página de pagamentos.</p>
         </div>
+
+        <div class="faq-item">
+            <h2 class="faq-question">Como posso levantar os meus ganhos?</h2>
+            <p class="faq-answer">Podes levantar o teu saldo diretamente para a tua conta PayPal na página da carteira, indicando o valor e o teu e-mail PayPal.</p>
+        </div>
+
+        <div class="faq-item">
+            <h2 class="faq-question">É seguro jogar neste site?</h2>
+            <p class="faq-answer">Sim, todas as transações são protegidas e utilizamos a API oficial do PayPal para garantir a segurança dos teus depósitos e levantamentos.</p>
+        </div>
+
+        <div class="faq-item">
+            <h2 class="faq-question">Preciso de criar uma conta para jogar?</h2>
+            <p class="faq-answer">Sim, é necessário registar uma conta para poderes jogar e gerir o teu saldo.</p>
+        </div>
+
+        <div class="faq-item">
+            <h2 class="faq-question">O que acontece se perder a ligação durante um jogo?</h2>
+            <p class="faq-answer">Se perderes a ligação durante uma jogada, o resultado será processado normalmente no servidor e poderás ver o resultado assim que voltares a ligar-te.</p>
+        </div>
+
+        <div class="faq-item">
+            <h2 class="faq-question">Existe um limite mínimo/máximo de aposta?</h2>
+            <p class="faq-answer">Sim. O valor mínimo de aposta é de 0.20€ e o máximo depende do jogo, sendo indicado antes de apostares.</p>
+        </div>
     </main>
 
     <script>
-        // Adiciona funcionalidade de abrir/fechar respostas ao clicar nas perguntas
+        // Abre/fecha respostas ao clicar nas perguntas
         document.querySelectorAll('.faq-question').forEach(item => {
             item.addEventListener('click', () => {
                 let answer = item.nextElementSibling;

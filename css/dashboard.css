@@ -33,11 +33,6 @@ h2 {
     transition: 0.3s ease;
 }
 
-.card:hover {
-    box-shadow: 0 6px 25px rgba(255, 60, 60, 0.5);
-    transform: scale(1.03);
-}
-
 .card h3 {
     font-size: 1.8rem;
     margin-bottom: 15px;
